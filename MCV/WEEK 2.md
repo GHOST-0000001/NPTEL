@@ -1,439 +1,319 @@
----
+🧾 WEEK 2 – SUPER MASTER NOTES (FINAL)
 
-# 🧾 WEEK 2 – SUPER MASTER NOTES (FINAL)
+🔹 Neural Network Learning Setup
 
----
+Given:
 
-## 🔹 Neural Network Learning Setup
+Input-output pairs ((x, y))
 
-* Given:
+Goal: $\hat{y} = f(x) \approx g(x)$
 
-  * Input-output pairs ((x, y))
+Unknown:
 
-* Goal:
-$$
-\hat{y} = f(x) \approx g(x)
-$$
+True function ( g(x) )
 
-* Unknown:
+Learning = finding weights such that:
 
-  * True function ( g(x) )
+prediction ≈ actual  
+loss is minimized  
 
-* Learning = finding weights such that:
 
-  * prediction ≈ actual
-  * loss is minimized
+🔹 Perceptron Learning Recap
 
----
+Decision rule: $W^T X \ge 0 \rightarrow \text{positive}, \quad W^T X < 0 \rightarrow \text{negative}$
 
-## 🔹 Perceptron Learning Recap
+Update rule:
 
-* Decision rule:
-$$
-W^T X \ge 0 \rightarrow \text{positive}, \quad W^T X < 0 \rightarrow \text{negative}
-$$
+Positive misclassified → $W = W + X$  
+Negative misclassified → $W = W - X$
 
-* Update rule:
+Geometric view: $W^T X = |W||X|\cos(\theta)$
 
-  * Positive misclassified → $W = W + X$
-  * Negative misclassified → $W = W - X$
+Learning adjusts:
 
-* Geometric view:
-$$
-W^T X = |W||X|\cos(\theta)
-$$
+angle with positive samples → acute  
+angle with negative samples → obtuse  
 
-* Learning adjusts:
 
-  * angle with positive samples → acute
-  * angle with negative samples → obtuse
+🔹 Universal Approximation Theorem
 
----
+A neural network with:
 
-## 🔹 Universal Approximation Theorem
+1 hidden layer  
+sufficient neurons  
 
-* A neural network with:
+Can approximate any function: $|g(x) - f(x)| < \epsilon$
 
-  * 1 hidden layer
-  * sufficient neurons
+Limitation:
 
-* Can approximate any function:
-$$
-|g(x) - f(x)| < \epsilon
-$$
+does NOT tell:
 
-* Limitation:
+number of neurons  
+architecture  
+training method  
 
-  * does NOT tell:
 
-    * number of neurons
-    * architecture
-    * training method
+🔹 Neural Network Structure
 
----
+Input layer → features  
 
-## 🔹 Neural Network Structure
+Hidden layers → transformations  
 
-* Input layer → features
+Output layer → final prediction  
 
-* Hidden layers → transformations
+Fully connected:
 
-* Output layer → final prediction
+each neuron connects to all neurons in next layer  
 
-* Fully connected:
 
-  * each neuron connects to all neurons in next layer
+🔹 Parameter Growth
 
----
+Input → hidden:
 
-## 🔹 Parameter Growth
+$( m \times n )$ weights + $( n )$ biases  
 
-* Input → hidden:
+Hidden → output:
 
-  * ( m \times n ) weights + ( n ) biases
+$( n \times p )$ weights + $( p )$ biases  
 
-* Hidden → output:
+Leads to:
 
-  * ( n \times p ) weights + ( p ) biases
+large parameter count  
+high computation  
 
-* Leads to:
 
-  * large parameter count
-  * high computation
+🔹 Limitation of Fully Connected Networks
 
----
+For images:
 
-## 🔹 Limitation of Fully Connected Networks
+flattening destroys spatial structure  
 
-* For images:
+Cannot capture:
 
-  * flattening destroys spatial structure
-* Cannot capture:
+locality  
+spatial patterns  
 
-  * locality
-  * spatial patterns
 
----
+🔹 Deep Networks
 
-## 🔹 Deep Networks
+Use multiple layers instead of one large layer  
 
-* Use multiple layers instead of one large layer
-* Provide:
+Provide:
 
-  * hierarchical learning
-  * efficient representation
+hierarchical learning  
+efficient representation  
 
----
 
-## 🔹 Feature Hierarchy
+🔹 Feature Hierarchy
 
-* Early layers → edges
-* Middle layers → shapes
-* Deep layers → objects
+Early layers → edges  
+Middle layers → shapes  
+Deep layers → objects  
 
----
 
-## 🔹 Loss Functions
+🔹 Loss Functions
 
-### Regression:
+Regression:
 
-$$
-L = \frac{1}{L} \sum (\hat{Y} - Y)^2
-$$
+$L = \frac{1}{L} \sum (\hat{Y} - Y)^2$
 
-* Use: Mean Squared Error
+Use: Mean Squared Error  
 
----
+Classification:
 
-### Classification:
+$H(P, Q) = -\sum P_i \log Q_i$
 
-$$
-H(P, Q) = -\sum P_i \log Q_i
-$$
+Use: Cross Entropy  
 
-* Use: Cross Entropy
+Insight:
 
----
+Loss = measure of prediction error  
+Training = minimizing loss  
 
-### Insight:
 
-* Loss = measure of prediction error
-* Training = minimizing loss
+🔹 Information Theory Concepts
 
----
+Information: $I(A) = -\log P(A)$  
 
-## 🔹 Information Theory Concepts
+Entropy: $H(P) = -\sum P_i \log P_i$  
 
-* Information:
-$$
-I(A) = -\log P(A)
-$$
+Cross Entropy: $H(P, Q) = -\sum P_i \log Q_i$  
 
-* Entropy:
-$$
-H(P) = -\sum P_i \log P_i
-$$
 
-* Cross Entropy:
-$$
-H(P, Q) = -\sum P_i \log Q_i
-$$
+🔹 Generalization vs Fitting
 
----
+Underfitting:  
+Model too simple  
+High error  
 
-## 🔹 Generalization vs Fitting
+Good Fit:  
+Captures pattern  
+Good generalization  
 
-### Underfitting:
+Overfitting:  
+Model too complex  
+Memorizes data  
 
-* Model too simple
-* High error
 
----
+🔹 Key Goal
 
-### Good Fit:
+Generalize to unseen data  
 
-* Captures pattern
-* Good generalization
 
----
+🔹 Occam’s Razor
 
-### Overfitting:
+Prefer simpler models among equally good ones  
 
-* Model too complex
-* Memorizes data
 
----
+🔹 Cost Surface
 
-## 🔹 Key Goal
+Loss depends on:
 
-* Generalize to unseen data
+weights + biases  
 
----
+Properties:
 
-## 🔹 Occam’s Razor
+non-convex  
+many minima  
 
-> Prefer simpler models among equally good ones
 
----
+🔹 Important Insight
 
-## 🔹 Cost Surface
+Global minimum not required  
+Good local minimum sufficient  
 
-* Loss depends on:
 
-  * weights + biases
+🔹 Gradient Descent
 
-* Properties:
+Update rule:
 
-  * non-convex
-  * many minima
+$\theta_{n+1} = \theta_n - \alpha \nabla L(\theta)$
 
----
+Key points:
 
-## 🔹 Important Insight
+Move in:
 
-* Global minimum not required
-* Good local minimum sufficient
+negative gradient direction  
 
----
+Step size (α):
 
-## 🔹 Gradient Descent
+small → slow  
+large → unstable  
 
-### Update rule:
+Taylor approximation:
 
-$$
-\theta_{n+1} = \theta_n - \alpha \nabla L(\theta)
-$$
+$L(\theta + \alpha \Delta \theta) \approx L(\theta) + \alpha \Delta \theta^T \nabla L$
 
----
+Optimal direction:
 
-### Key points:
+$\Delta \theta = - \nabla L$  
 
-* Move in:
 
-  * negative gradient direction
-* Step size (α):
+🔹 Activation Functions
 
-  * small → slow
-  * large → unstable
+Purpose:  
+introduce non-linearity  
 
----
+Sigmoid:  
+range: (0,1)  
+problem: vanishing gradient  
 
-### Taylor approximation:
+Tanh:  
+range: (-1,1)  
+problem: vanishing gradient  
 
-$$
-L(\theta + \alpha \Delta \theta)
-≈ L(\theta) + \alpha \Delta \theta^T \nabla L
-$$
+ReLU:
 
----
+$f(x) = \max(0,x)$  
 
-### Optimal direction:
+efficient  
+widely used  
 
-$$
-\Delta \theta = - \nabla L
-$$
+Leaky ReLU:  
+avoids dead neurons  
 
----
 
-## 🔹 Activation Functions
+🔹 Important Rule
 
-### Purpose:
+Without activation → network becomes linear  
 
-* introduce non-linearity
 
----
+🔹 Backpropagation
 
-### Sigmoid:
+Goal:  
+compute gradients efficiently  
 
-* range: (0,1)
-* problem: vanishing gradient
+Key idea:  
+propagate error backward  
 
----
 
-### Tanh:
+🔹 Notation
 
-* range: (-1,1)
-* problem: vanishing gradient
+$Z^l = W^{l-1} A^{l-1} + B^l$  
 
----
+$A^l = f(Z^l)$  
 
-### ReLU:
 
-$$
-f(x) = \max(0,x)
-$$
+🔹 Delta Definition
 
-* efficient
-* widely used
+$\delta^l = \frac{\partial L}{\partial Z^l}$  
 
----
 
-### Leaky ReLU:
+🔹 Output Layer Delta
 
-* avoids dead neurons
+$\delta^L = (\hat{Y} - Y) \cdot f'(Z^L)$  
 
----
 
-## 🔹 Important Rule
+🔹 Hidden Layer Delta
 
-* Without activation → network becomes linear
+$\delta^l = (W^l)^T \delta^{l+1} \cdot f'(Z^l)$  
 
----
 
-## 🔹 Backpropagation
+🔹 Weight Gradient
 
-### Goal:
+$\frac{\partial L}{\partial W^l} = \delta^{l+1} (A^l)^T$  
 
-* compute gradients efficiently
 
----
+🔹 Bias Gradient
 
-### Key idea:
+$\frac{\partial L}{\partial B^l} = \delta^{l+1}$  
 
-* propagate error backward
 
----
+🔹 Backprop Flow
 
-## 🔹 Notation
+Forward pass  
+Compute output error  
+Backpropagate delta  
+Compute gradients  
+Update weights  
 
-$$
-Z^l = W^{l-1} A^{l-1} + B^l
-$$
 
-$$
-A^l = f(Z^l)
-$$
+🔹 Core Insight
 
----
+Weight update:
 
-## 🔹 Delta Definition
+depends on:
 
-$$
-\delta^l = \frac{\partial L}{\partial Z^l}
-$$
+error  
+input  
 
----
 
-## 🔹 Output Layer Delta
+🔹 Matrix Form (Efficient Computation)
 
-$$
-\delta^L = (\hat{Y} - Y) \cdot f'(Z^L)
-$$
+$\delta^l = (W^l)^T \delta^{l+1} \odot f'(Z^l)$  
 
----
+$\frac{\partial L}{\partial W^l} = \delta^{l+1} (A^l)^T$  
 
-## 🔹 Hidden Layer Delta
 
-$$
-\delta^l =
-(W^l)^T \delta^{l+1} \cdot f'(Z^l)
-$$
+🔹 Final Definition
 
----
+Backpropagation is a chain-rule-based method to compute gradients of loss with respect to weights and biases by propagating error backward through the network.  
 
-## 🔹 Weight Gradient
 
-$$
-\frac{\partial L}{\partial W^l}
-= \delta^{l+1} (A^l)^T
-$$
+🔥 FINAL INTUITION (WEEK 2)
 
----
-
-## 🔹 Bias Gradient
-
-$$
-\frac{\partial L}{\partial B^l}
-= \delta^{l+1}
-$$
-
----
-
-## 🔹 Backprop Flow
-
-1. Forward pass
-2. Compute output error
-3. Backpropagate delta
-4. Compute gradients
-5. Update weights
-
----
-
-## 🔹 Core Insight
-
-* Weight update:
-
-  * depends on:
-
-    * error
-    * input
-
----
-
-## 🔹 Matrix Form (Efficient Computation)
-
-$$
-\delta^l = (W^l)^T \delta^{l+1} \odot f'(Z^l)
-$$
-
-$$
-\frac{\partial L}{\partial W^l} = \delta^{l+1} (A^l)^T
-$$
-
----
-
-## 🔹 Final Definition
-
-> Backpropagation is a chain-rule-based method to compute gradients of loss with respect to weights and biases by propagating error backward through the network. 
-
----
-
-## 🔥 FINAL INTUITION (WEEK 2)
-
-* Network = function
-* Loss = error
-* Gradient = direction to reduce error
-* Backprop = compute gradients
-* Gradient descent = update weights
-
----
+Network = function  
+Loss = error  
+Gradient = direction to reduce error  
+Backprop = compute gradients  
+Gradient descent = update weights
