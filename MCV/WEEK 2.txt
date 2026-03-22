@@ -1,0 +1,2324 @@
+
+# 🧾 Week 2 – Video 1 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Perceptron Learning Recap
+
+* Goal: classify data using condition:
+
+  * ( W^T X ≥ 0 ) → positive class
+  * ( W^T X < 0 ) → negative class
+
+* If misclassification happens:
+
+  * Positive example misclassified → update:
+    ( W = W + X )
+  * Negative example misclassified → update:
+    ( W = W - X )
+
+* Effect of update:
+
+  * For positive case → increases ( W^T X )
+  * For negative case → decreases ( W^T X )
+
+* Geometric interpretation:
+
+  * ( W^T X = |W||X|\cos(\theta) )
+  * Learning tries to:
+
+    * Make angle with positive samples **acute**
+    * Make angle with negative samples **obtuse**
+
+---
+
+## 🔹 Universal Approximation Theorem (UAT)
+
+* A neural network with:
+
+  * 1 hidden layer
+  * sufficient neurons
+
+* Can approximate any function:
+  [
+  |g(x) - f(x)| < \epsilon
+  ]
+
+* Important limitations:
+
+  * Does NOT tell:
+
+    * number of neurons required
+    * how to design network
+    * how to train
+  * Only gives **existence guarantee**
+
+---
+
+## 🔹 Basic Neural Network Structure
+
+* Input layer:
+
+  * Features ( x_1, x_2, ..., x_m )
+
+* Hidden layer:
+
+  * Multiple neurons
+  * Each neuron receives ALL inputs
+
+* Output layer:
+
+  * Produces final output (scalar or vector)
+
+---
+
+## 🔹 Fully Connected (FC) Network
+
+* Every neuron connects to all neurons in next layer
+
+* Each connection has a weight
+
+* Purpose of weights:
+
+  * Identify importance of features
+  * Irrelevant inputs → low weights
+  * Important inputs → high weights
+
+---
+
+## 🔹 Parameter Growth (VERY IMPORTANT)
+
+* Input → Hidden:
+
+  * ( m × n ) weights
+  * ( n ) biases
+
+* Hidden → Output:
+
+  * ( n × p ) weights
+  * ( p ) biases
+
+* Total parameters grow rapidly → **high computational cost**
+
+---
+
+## 🔹 Problem with Fully Connected Networks
+
+* For images:
+
+  * Flattening image → loses spatial structure
+  * Cannot capture locality
+
+* Example:
+
+  * Image 512×512 → becomes long vector
+  * Spatial relationships lost
+
+* Solution (later):
+
+  * Convolutional Neural Networks (CNN)
+
+---
+
+## 🔹 Why NOT Use Single Hidden Layer (Important Question)
+
+* UAT says:
+
+  * 1 hidden layer is enough
+
+* BUT in practice:
+
+  * Not efficient
+  * Requires huge number of neurons
+  * Hard to train
+
+---
+
+## 🔹 Deep Networks (Solution)
+
+* Use multiple layers instead of one large layer
+
+* Called **Deep Neural Networks**
+
+* Deep = more than ~3–4 layers
+
+---
+
+## 🔹 Compositional Feature Learning
+
+* Each layer performs transformation:
+
+[
+F_1(x) → F_2(F_1(x)) → F_3(F_2(F_1(x)))
+]
+
+* Meaning:
+
+  * Each layer builds on previous layer
+  * Complex functions built step-by-step
+
+---
+
+## 🔹 Layered Feature Representation
+
+* Features learned hierarchically:
+
+  * Early layers → simple features
+    (edges, patterns)
+
+  * Middle layers → intermediate features
+    (shapes, textures)
+
+  * Deep layers → complex features
+    (objects, semantics)
+
+* Similar to **human visual system**
+
+---
+
+## 🔹 Explainability
+
+* Deep networks allow:
+
+  * Understanding what each layer does
+
+* Important because:
+
+  * Black-box models are hard to trust
+  * Need insight into model behavior
+
+* Methods:
+
+  * Ablation studies (remove parts and observe)
+
+---
+
+## 🔹 Efficiency of Deep Networks
+
+* Empirical observation:
+
+  * Deep networks use **fewer neurons**
+  * Compared to single large hidden layer
+
+* Reason:
+
+  * Representation distributed across layers
+
+---
+
+## 🔹 Activation Functions Insight
+
+* Hidden layers:
+
+  * MUST use non-linearity
+
+* Output layer:
+
+  * Depends on task
+
+* Examples:
+
+  * Step → binary output
+  * Sigmoid → values in (0,1)
+  * ReLU → any positive value
+
+* Output is NOT always binary
+
+---
+
+## 🔹 Types of Problems Solved
+
+### Regression:
+
+* Output = continuous values
+* Example:
+
+  * Noisy image → clean image
+
+---
+
+### Classification:
+
+* Output = category/label
+* Example:
+
+  * Image → cat/dog
+
+---
+
+## 🔹 Multilayer Perceptron (MLP)
+
+* Fully connected network with:
+
+  * Input layer
+  * One or more hidden layers
+  * Output layer
+
+* Used for:
+
+  * Regression
+  * Classification
+
+---
+
+## 🔹 Key Takeaways
+
+* Perceptron → learns linear boundary
+* UAT → guarantees representation, not practicality
+* Fully connected networks → high parameter cost
+* Deep networks:
+
+  * Better representation
+  * More efficient
+  * Hierarchical learning
+* MLP = foundation of deep learning
+
+---
+
+# 🧾 Week 2 – Video 2 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Regression Problem (Core Idea)
+
+* Goal: predict **continuous values**
+
+* Example:
+
+  * Predict movie rating (0–10)
+  * Input:
+
+    * actor, director, music, etc.
+  * Output:
+
+    * rating (real number, NOT probability)
+
+---
+
+## 🔹 Training in Regression
+
+* Need dataset:
+
+  * Many examples (movies)
+  * Each with:
+
+    * input features
+    * known output (rating)
+
+* Network (MLP):
+
+  * Takes input → predicts output ( \hat{Y} )
+
+* Compare:
+
+  * predicted value ( \hat{Y} )
+  * actual value ( Y )
+
+---
+
+## 🔹 Loss Function (Regression)
+
+* Use **Mean Squared Error (MSE)**
+
+[
+\text{Loss} = \frac{1}{L} \sum_{i=1}^{L} \sum_{j=1}^{m} (\hat{Y}*{ij} - Y*{ij})^2
+]
+
+* Where:
+
+  * ( L ) = number of training examples
+  * ( m ) = output dimension
+
+---
+
+## 🔹 Meaning of Loss
+
+* Measures **error between prediction and truth**
+
+* Goal:
+  [
+  \text{Minimize Loss}
+  ]
+
+---
+
+## 🔹 What is being optimized?
+
+* NOT inputs
+* NOT outputs
+
+👉 We optimize:
+
+* weights
+* biases
+
+---
+
+## 🔹 Training Objective
+
+* Find weights such that:
+
+  * prediction ≈ actual value
+  * loss → as small as possible
+
+---
+
+## 🔹 Important Insight
+
+* Lower loss ≠ always better model
+* Can lead to:
+
+  * overfitting
+
+(ignored here, but important later)
+
+---
+
+## 🔹 After Training
+
+* Give new input
+* Network predicts output
+
+Example:
+
+* New movie → predicted rating
+
+---
+
+## 🔹 Classification Problem (Next Type)
+
+* Goal:
+
+  * Predict **probability distribution**
+
+---
+
+## 🔹 Example:
+
+True distribution:
+
+[
+Y = [0.3,\ 0.2,\ 0.5]
+]
+
+* Meaning:
+
+  * class1 → 30%
+  * class2 → 20%
+  * class3 → 50%
+
+---
+
+## 🔹 Network Output
+
+Predicted distribution:
+
+[
+\hat{Y} = [0.35,\ 0.30,\ 0.35]
+]
+
+---
+
+## 🔹 Problem
+
+* How do we compare:
+
+  * ( Y ) and ( \hat{Y} ) ?
+
+* MSE is NOT ideal here
+
+---
+
+## 🔹 Information Theory Concept
+
+### Information Content:
+
+[
+I(A) = -\log P(A)
+]
+
+---
+
+## 🔹 Meaning:
+
+* If event is certain:
+
+  * ( P(A)=1 )
+  * Information = 0
+
+* If event is rare:
+
+  * ( P(A) \to 0 )
+  * Information = high
+
+---
+
+## 🔹 Expected Information (Entropy)
+
+[
+H(P) = -\sum P_i \log P_i
+]
+
+* Measures **uncertainty of distribution**
+
+---
+
+## 🔹 Cross Entropy (VERY IMPORTANT)
+
+[
+H(P, Q) = -\sum P_i \log Q_i
+]
+
+* ( P ) = true distribution
+* ( Q ) = predicted distribution
+
+---
+
+## 🔹 Meaning of Cross Entropy
+
+* Measures:
+
+  > How well predicted distribution matches true distribution
+
+---
+
+## 🔹 KL Divergence (Concept)
+
+[
+D_{KL}(P || Q) = \sum P(x)\log \frac{P(x)}{Q(x)}
+]
+
+* Measures distance between distributions
+
+---
+
+## 🔹 Important Property
+
+[
+\text{Cross Entropy} ≥ \text{Entropy}
+]
+
+* Equality when:
+  [
+  P = Q
+  ]
+
+---
+
+## 🔹 Training Goal (Classification)
+
+[
+\text{Minimize Cross Entropy}
+]
+
+---
+
+## 🔹 Key Insight
+
+* First term (entropy):
+
+  * fixed (true data)
+
+* Second term:
+
+  * depends on model
+
+👉 So optimization focuses on predicted values
+
+---
+
+## 🔹 Why Not MSE?
+
+* MSE treats values as numbers
+
+* But classification deals with **probabilities**
+
+* Cross entropy:
+
+  * respects probability structure
+  * better learning signal
+
+---
+
+## 🔹 Loss Functions Summary
+
+| Task           | Loss Function      |
+| -------------- | ------------------ |
+| Regression     | Mean Squared Error |
+| Classification | Cross Entropy      |
+
+---
+
+## 🔹 Important Concept
+
+* Loss function defines:
+
+  > What the network is trying to learn
+
+---
+
+## 🔹 Multiple Losses
+
+* Sometimes:
+
+  * combine multiple losses
+
+* Example:
+  [
+  \text{Total Loss} = \alpha L_1 + \beta L_2
+  ]
+
+* Weights (α, β):
+
+  * called **hyperparameters**
+  * chosen manually
+
+---
+
+## 🔹 Final Takeaways
+
+* Regression:
+
+  * predict real values
+  * minimize MSE
+
+* Classification:
+
+  * predict probabilities
+  * minimize cross entropy
+
+* Training = minimizing loss by adjusting weights
+
+---
+
+## 🔥 Core Understanding (Very Important)
+
+* Neural network = function
+* Loss = how wrong the function is
+* Training = reduce that wrongness
+
+---
+
+# 🧾 Week 2 – Video 3 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Learning from Data (Core Setup)
+
+* Given:
+
+  * Input-output pairs ((x, y))
+
+* Unknown:
+
+  * True function ( g(x) )
+
+* Neural network tries to learn:
+  [
+  \hat{y} = f(x) \approx g(x)
+  ]
+
+* Important:
+
+  * We DO NOT know full function ( g(x) )
+  * Only know sampled points
+
+---
+
+## 🔹 Three Possible Fitting Cases
+
+### 1. Underfitting
+
+* Model too simple
+
+* Example:
+  [
+  \hat{y} = wx + b
+  ]
+
+* Characteristics:
+
+  * Cannot capture pattern
+  * High error
+  * Poor performance on:
+
+    * training data
+    * test data
+
+---
+
+### 2. Appropriate Fitting (Ideal Case)
+
+* Model captures true trend
+
+* Example:
+  [
+  \hat{y} = w_2 x^2 + w_1 x + b
+  ]
+
+* Characteristics:
+
+  * Good balance
+  * Reasonable error
+  * Generalizes well
+
+---
+
+### 3. Overfitting
+
+* Model too complex
+
+* Example:
+  [
+  \hat{y} = b + \sum_{i=1}^{n} w_i x^i
+  ]
+
+* Characteristics:
+
+  * Fits training data exactly
+  * Very low training error
+  * Poor generalization
+
+---
+
+## 🔹 Key Idea: Generalization
+
+* Goal:
+
+  * Perform well on **unseen data**
+
+* Important:
+
+  * Network should NOT memorize training data
+  * Should learn **pattern**
+
+* Insight:
+
+  * Small training error is NOT enough
+  * Must predict new examples correctly
+
+---
+
+## 🔹 Trade-off
+
+* Underfitting → too simple
+* Overfitting → too complex
+
+👉 Desired:
+
+* Balanced model
+
+---
+
+## 🔹 Important Concept
+
+* Zero training error is NOT required
+* Small error is acceptable
+* Helps improve generalization
+
+---
+
+## 🔹 Data Importance
+
+* Training data must be:
+
+  * rich
+  * diverse
+
+* Poor data:
+
+  * leads to poor generalization
+
+---
+
+## 🔹 Occam’s Razor (VERY IMPORTANT)
+
+**Statement:**
+
+> Among models that explain data equally well, choose the simplest one
+
+---
+
+## 🔹 Meaning
+
+* Prefer:
+
+  * simpler model
+* Avoid:
+
+  * unnecessarily complex models
+
+---
+
+## 🔹 Why?
+
+* Simpler models:
+
+  * generalize better
+  * are more interpretable
+
+---
+
+## 🔹 Insight
+
+* Complexity ≠ better performance
+* Simplicity often gives:
+
+  * better generalization
+
+---
+
+## 🔹 Cost Function (Loss Landscape)
+
+* Loss depends on:
+
+  * weights ( W )
+  * biases ( b )
+
+---
+
+## 🔹 Goal:
+
+[
+\text{Minimize Loss}(W, b)
+]
+
+---
+
+## 🔹 Cost Surface
+
+* Loss function forms a **high-dimensional surface**
+* Each point:
+
+  * represents one set of weights
+
+---
+
+## 🔹 Ideal Case (Rare)
+
+* Smooth convex surface
+* Single global minimum
+
+---
+
+## 🔹 Reality in Deep Learning
+
+* Cost surface is:
+
+  * **non-convex**
+  * complex
+  * many minima
+
+---
+
+## 🔹 Important Insight
+
+* Non-convexity exists:
+
+  * even WITHOUT non-linearity
+
+---
+
+## 🔹 Reason: Weight Symmetry
+
+* Swapping neurons + weights:
+
+  * gives SAME output
+  * but different parameter values
+
+---
+
+## 🔹 Effect
+
+* Multiple equivalent solutions
+* Multiple minima in loss surface
+
+---
+
+## 🔹 Implication
+
+* Many different weight configurations:
+
+  * give same loss
+
+---
+
+## 🔹 Key Understanding
+
+* Global minimum:
+
+  * not necessary
+
+* Any good local minimum:
+
+  * acceptable
+
+---
+
+## 🔹 Important Conclusion
+
+* Deep learning does NOT require:
+
+  * perfect optimization
+
+* It requires:
+
+  * good enough solution
+
+---
+
+## 🔹 Strength of Deep Networks
+
+* Many solutions exist
+* Easy to find acceptable ones
+
+---
+
+## 🔹 Final Takeaways
+
+* Learning = approximating unknown function
+
+* Three cases:
+
+  * underfitting
+  * good fit
+  * overfitting
+
+* Goal:
+
+  * generalization
+
+* Cost surface:
+
+  * complex and non-convex
+
+* Multiple solutions exist
+
+* Simpler models preferred (Occam’s Razor)
+
+---
+
+## 🔥 Core Intuition (Very Important)
+
+* Don’t memorize data
+* Learn patterns
+* Simpler models generalize better
+* Perfect fit is NOT the goal
+
+---
+
+# 🧾 Week 2 – Video 4 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Recap: Optimization Problem
+
+* Training a neural network = **optimization problem**
+* Objective:
+  [
+  \text{Minimize Loss } L(\theta)
+  ]
+* Where:
+
+  * ( \theta ) = weights + biases
+
+---
+
+## 🔹 Cost Surface (Loss Landscape)
+
+* Loss function forms a **high-dimensional surface**
+
+* Each point:
+
+  * represents a configuration of weights
+
+* Important:
+
+  * Surface is **non-convex**
+  * Multiple local minima exist
+
+---
+
+## 🔹 Weight Space Symmetry
+
+* Swapping neurons and weights:
+
+  * gives same output
+  * gives same loss
+
+* Implication:
+
+  * Multiple different parameter sets → same solution
+
+---
+
+## 🔹 Important Insight
+
+* Global minimum:
+
+  * not required
+* Any local minimum:
+
+  * acceptable
+
+---
+
+## 🔹 Need for Optimization Algorithm
+
+* PLA:
+
+  * too simple
+* Need systematic method
+
+👉 Solution:
+
+* **Gradient Descent**
+
+---
+
+## 🔹 Gradient Descent (GD)
+
+### Update Rule:
+
+[
+\theta_{n+1} = \theta_n - \alpha \frac{dL}{d\theta}
+]
+
+* ( \alpha ) = step size (learning rate)
+* Iterative process
+
+---
+
+## 🔹 Working of Gradient Descent
+
+* Start:
+
+  * random initialization
+
+* At each step:
+
+  * compute gradient
+  * move in opposite direction
+
+---
+
+## 🔹 Why Opposite Direction?
+
+* Gradient:
+
+  * direction of **maximum increase**
+
+* Negative gradient:
+
+  * direction of **maximum decrease**
+
+---
+
+## 🔹 Intuition
+
+* Like going downhill:
+
+  * always move toward lower loss
+
+---
+
+## 🔹 Step Size (α)
+
+* Controls how far to move
+
+---
+
+### If α is too small:
+
+* Slow convergence
+* Takes many iterations
+
+---
+
+### If α is too large:
+
+* May overshoot
+* Can diverge
+* May zigzag
+
+---
+
+## 🔹 Zigzag Problem
+
+* Large step size:
+
+  * jumps across valley
+  * oscillates
+  * may move away
+
+---
+
+## 🔹 Greedy Nature of GD
+
+* Always moves toward lower loss
+* Never increases loss
+
+---
+
+## 🔹 Limitation: Local Minima
+
+* GD can get stuck in:
+
+  * local minimum
+
+* Depends on:
+
+  * starting point
+
+---
+
+## 🔹 Initialization Effect
+
+* Different initial weights:
+
+  * lead to different solutions
+
+* But:
+
+  * all solutions may have similar loss
+
+---
+
+## 🔹 Important Observation
+
+* In deep learning:
+
+  * local minima often acceptable
+  * global minimum not required
+
+---
+
+## 🔹 Differentiability Requirement
+
+* Loss function must be:
+
+  * differentiable
+
+* Because GD needs:
+  [
+  \frac{dL}{d\theta}
+  ]
+
+---
+
+## 🔹 Gradient Descent as Optimization Strategy
+
+* Simple
+
+* Efficient
+
+* Widely used
+
+* Compared to:
+
+  * simulated annealing
+  * complex methods
+
+👉 GD is computationally feasible
+
+---
+
+## 🔹 Direction Selection (Principled View)
+
+* Want direction:
+
+  * that reduces loss maximum
+
+* Use:
+
+  * unit vector ( U )
+
+* Minimize:
+  [
+  U^T \nabla L(\theta)
+  ]
+
+---
+
+## 🔹 Key Result
+
+* Minimum occurs when:
+
+  * angle = 180°
+
+👉 Direction = **negative gradient**
+
+---
+
+## 🔹 Step Size Justification (Taylor Approximation)
+
+Use Taylor expansion:
+
+[
+L(\theta + \alpha \Delta \theta)
+≈ L(\theta) + \alpha \Delta \theta^T \nabla L(\theta)
+]
+
+---
+
+## 🔹 Goal:
+
+[
+L(\theta + \alpha \Delta \theta) < L(\theta)
+]
+
+---
+
+## 🔹 Condition:
+
+* Choose ( \Delta \theta ) such that:
+  [
+  \Delta \theta^T \nabla L(\theta) < 0
+  ]
+
+---
+
+## 🔹 Best Choice:
+
+[
+\Delta \theta = - \nabla L(\theta)
+]
+
+---
+
+## 🔹 Result:
+
+* Maximum decrease in loss
+* Optimal local direction
+
+---
+
+## 🔹 Higher Order Terms
+
+* Taylor expansion includes:
+
+  * second-order terms (Hessian)
+
+* Ignored because:
+
+  * step size small
+  * local approximation sufficient
+
+---
+
+## 🔹 Final Gradient Descent Rule
+
+[
+\theta_{n+1} = \theta_n - \alpha \nabla L(\theta)
+]
+
+---
+
+## 🔹 Key Properties of GD
+
+* Iterative
+* Greedy
+* Local optimization
+* Requires differentiability
+
+---
+
+## 🔹 Pros of Gradient Descent
+
+* Simple to implement
+* Works in high dimensions
+* Widely used
+
+---
+
+## 🔹 Cons of Gradient Descent
+
+* Can get stuck in local minima
+* Sensitive to step size
+* Depends on initialization
+* May oscillate
+
+---
+
+## 🔹 Important Insight
+
+* Deep networks:
+
+  * huge parameter space
+* Many solutions exist
+
+👉 Good enough solution is sufficient
+
+---
+
+## 🔹 Final Takeaways
+
+* Training = minimizing loss
+* GD = main optimization method
+* Move in:
+
+  * negative gradient direction
+* Step size critical
+* Local minima acceptable
+
+---
+
+## 🔥 Core Understanding
+
+* Gradient = slope
+* GD = move opposite slope
+* Goal = reduce loss step-by-step
+
+---
+
+# 🧾 Week 2 – Video 5 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Role of Activation Functions
+
+* Introduce **non-linearity** in neural networks
+
+* Without activation:
+
+  * Network becomes **linear**
+  * Equivalent to single-layer model
+
+* Required for:
+
+  * learning complex patterns
+
+---
+
+## 🔹 Step Function (Heaviside)
+
+* Definition:
+  [
+  f(x) =
+  \begin{cases}
+  0 & x < 0 \
+  1 & x > 0
+  \end{cases}
+  ]
+
+---
+
+### Problem:
+
+* Not differentiable at ( x = 0 )
+* Derivative:
+
+  * undefined (impulse-like behavior)
+
+---
+
+### Conclusion:
+
+* Not suitable for gradient-based learning
+* Not used in modern networks
+
+---
+
+## 🔹 Sigmoid Function
+
+### Definition:
+
+[
+f(x) = \frac{1}{1 + e^{-x}}
+]
+
+---
+
+### Properties:
+
+* Output range:
+
+  * (0, 1)
+* Smooth and differentiable
+* Interpreted as probability
+
+---
+
+### Derivative:
+
+[
+f'(x) = f(x)(1 - f(x))
+]
+
+---
+
+### Behavior:
+
+* At ( x = 0 ):
+
+  * ( f(x) = 0.5 )
+* For large positive ( x ):
+
+  * output → 1
+* For large negative ( x ):
+
+  * output → 0
+
+---
+
+### Problem: Vanishing Gradient
+
+* For large |x|:
+
+  * derivative → 0
+* Gradient becomes very small
+
+---
+
+### Effect:
+
+* Slow learning
+* Training may stop
+
+---
+
+## 🔹 Tanh (Hyperbolic Tangent)
+
+### Definition:
+
+[
+f(x) = \tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}
+]
+
+---
+
+### Properties:
+
+* Output range:
+
+  * (-1, 1)
+* Centered at 0
+
+---
+
+### Derivative:
+
+[
+f'(x) = 1 - f(x)^2
+]
+
+---
+
+### Behavior:
+
+* At ( x = 0 ):
+
+  * ( f(x) = 0 )
+* For large |x|:
+
+  * saturates → ±1
+
+---
+
+### Problem:
+
+* Same as sigmoid
+* Vanishing gradient at large values
+
+---
+
+## 🔹 ReLU (Rectified Linear Unit)
+
+### Definition:
+
+[
+f(x) = \max(0, x)
+]
+
+---
+
+### Behavior:
+
+* If ( x > 0 ):
+
+  * output = x
+* If ( x ≤ 0 ):
+
+  * output = 0
+
+---
+
+### Derivative:
+
+[
+f'(x) =
+\begin{cases}
+1 & x > 0 \
+0 & x ≤ 0
+\end{cases}
+]
+
+---
+
+### Advantages:
+
+* No vanishing gradient (for positive x)
+* Simple and efficient
+* Most widely used
+
+---
+
+### Limitation:
+
+* Negative inputs → zero output
+* Neurons may "die"
+
+---
+
+## 🔹 Leaky ReLU
+
+### Idea:
+
+* Allow small gradient for negative values
+
+---
+
+### Definition:
+
+[
+f(x) = \max(\beta x, x)
+]
+
+* ( \beta ) = small constant
+
+---
+
+### Benefit:
+
+* Prevents dead neurons
+* Maintains gradient flow
+
+---
+
+## 🔹 Squashing Functions
+
+* Functions like:
+
+  * sigmoid
+  * tanh
+
+* Output is bounded:
+
+  * within fixed range
+
+---
+
+### ReLU:
+
+* Not a squashing function
+* Output can grow infinitely
+
+---
+
+## 🔹 Choosing Activation Functions
+
+### Key Requirement:
+
+* Should be **monotonic**
+
+---
+
+### Why NOT use sin/cos?
+
+* Non-monotonic
+* Output oscillates
+* Causes instability
+
+---
+
+### Conclusion:
+
+* Activation functions should:
+
+  * be smooth
+  * be monotonic
+  * support gradient computation
+
+---
+
+## 🔹 Output Layer Activation
+
+### Depends on task:
+
+---
+
+### Classification:
+
+* Use:
+
+  * sigmoid / softmax
+
+---
+
+### Regression:
+
+* Use:
+
+  * linear
+  * sometimes ReLU
+
+---
+
+### Important:
+
+* Output layer may:
+
+  * have activation
+  * or be purely linear
+
+---
+
+## 🔹 Deep Network Structure
+
+* Input layer
+
+* Multiple hidden layers
+
+* Output layer
+
+* Each layer:
+
+  * has weights + biases
+
+---
+
+## 🔹 Notation in Network
+
+* ( Z_i^l ):
+
+  * linear combination at neuron i, layer l
+
+* ( A_i^l ):
+
+  * activation output
+
+---
+
+### Computation:
+
+[
+Z = WX + b
+]
+[
+A = f(Z)
+]
+
+---
+
+## 🔹 Bias Term
+
+* Represented using:
+
+  * constant input = 1
+
+* Helps shift decision boundary
+
+---
+
+## 🔹 Need for Backpropagation
+
+* Gradient descent needs:
+  [
+  \frac{dL}{d\theta}
+  ]
+
+* But:
+
+  * many layers
+  * complex dependencies
+
+---
+
+## 🔹 Solution:
+
+* **Backpropagation algorithm**
+
+---
+
+## 🔹 Backpropagation
+
+* Based on:
+
+  * chain rule of derivatives
+
+* Purpose:
+
+  * compute gradients efficiently
+
+---
+
+## 🔹 Key Idea
+
+* Propagate error:
+
+  * from output → back to input
+
+---
+
+## 🔹 Delta Terms
+
+* Represent error at each neuron
+
+[
+\delta_i^l
+]
+
+* Used to compute gradients
+
+---
+
+## 🔹 Importance
+
+* Makes training deep networks possible
+* Core of deep learning
+
+---
+
+## 🔹 Final Takeaways
+
+* Activation functions:
+
+  * introduce non-linearity
+* Sigmoid/Tanh:
+
+  * suffer from vanishing gradient
+* ReLU:
+
+  * most widely used
+* Backprop:
+
+  * computes gradients efficiently
+* Gradient descent + backprop:
+
+  * enable learning
+
+---
+
+## 🔥 Core Understanding
+
+* Activation = adds power to network
+* Gradient = drives learning
+* Backprop = computes gradient efficiently
+
+---
+
+# 🧾 Week 2 – Video 6 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Backpropagation – Core Idea
+
+* Purpose:
+
+  * Compute gradients efficiently
+* Used for:
+
+  * updating weights and biases
+
+---
+
+### Key Idea:
+
+* Error is propagated:
+
+  * from output layer → back to input layer
+
+---
+
+### Why needed?
+
+* Gradient descent requires:
+  [
+  \frac{\partial L}{\partial W}, \quad \frac{\partial L}{\partial B}
+  ]
+
+* In deep networks:
+
+  * direct computation is complex
+
+👉 Backprop simplifies using **chain rule** 
+
+---
+
+## 🔹 Network Setup
+
+* Layers:
+
+  * ( L = 1 ) → input
+  * ( L = 2, 3, ... ) → hidden
+  * ( L = final ) → output
+
+---
+
+### Notation:
+
+* ( Z_i^l ):
+
+  * linear input to neuron
+
+* ( A_i^l ):
+
+  * activation output
+
+---
+
+### Computation:
+
+[
+Z_i^l = \sum_j W_{ij}^{l-1} A_j^{l-1} + B_i^l
+]
+[
+A_i^l = f(Z_i^l)
+]
+
+---
+
+## 🔹 Cost Function (Example)
+
+* For regression:
+  [
+  L = \frac{1}{2} \sum_i (\hat{Y}_i - Y_i)^2
+  ]
+
+* Goal:
+  [
+  \text{Minimize } L
+  ]
+
+---
+
+## 🔹 Forward Pass
+
+* Input → propagate forward
+* Compute:
+
+  * ( Z )
+  * ( A )
+* Get output:
+  [
+  \hat{Y}
+  ]
+
+---
+
+## 🔹 Error Computation
+
+* Compare:
+
+  * predicted ( \hat{Y} )
+  * true ( Y )
+
+---
+
+## 🔹 Delta Definition
+
+[
+\delta_i^l = \frac{\partial L}{\partial Z_i^l}
+]
+
+* Represents:
+
+  * error at neuron
+
+---
+
+## 🔹 Gradient w.r.t Weights
+
+### For last layer:
+
+[
+\frac{\partial L}{\partial W_{ij}^l}
+= \delta_i^{l+1} \cdot A_j^l
+]
+
+---
+
+### Important Insight:
+
+* Gradient =
+  error × input
+
+---
+
+## 🔹 Output Layer Delta
+
+[
+\delta_i^L = (\hat{Y}_i - Y_i) \cdot f'(Z_i^L)
+]
+
+---
+
+### Meaning:
+
+* Error term:
+
+  * ( (\hat{Y} - Y) )
+* Scaled by:
+
+  * activation derivative
+
+---
+
+## 🔹 Hidden Layer Delta (CORE RESULT)
+
+[
+\delta_i^l =
+\left( \sum_j \delta_j^{l+1} W_{ji}^l \right)
+\cdot f'(Z_i^l)
+]
+
+---
+
+### Meaning:
+
+* Error at layer ( l ):
+
+  * depends on next layer
+
+* Weighted sum of:
+
+  * next layer errors
+
+---
+
+### Key Insight:
+
+* Error flows backward
+* Each layer:
+
+  * depends on next layer
+
+---
+
+## 🔹 Recursive Nature
+
+* Start from:
+
+  * output layer
+
+* Then:
+  [
+  \delta^L → \delta^{L-1} → \delta^{L-2} → ...
+  ]
+
+---
+
+## 🔹 Weight Gradient Summary
+
+[
+\frac{\partial L}{\partial W} = \delta \times \text{input}
+]
+
+---
+
+### For layers:
+
+* Output layer:
+
+  * use ( \hat{Y} - Y )
+
+* Hidden layers:
+
+  * use recursive formula
+
+---
+
+## 🔹 Bias Gradient
+
+[
+\frac{\partial L}{\partial B_i^l} = \delta_i^l
+]
+
+---
+
+### Meaning:
+
+* Bias gradient = error
+
+---
+
+## 🔹 Full Backprop Flow
+
+### Step 1:
+
+* Forward pass → compute outputs
+
+### Step 2:
+
+* Compute output layer delta
+
+### Step 3:
+
+* Propagate delta backward
+
+### Step 4:
+
+* Compute gradients
+
+### Step 5:
+
+* Update weights using GD
+
+---
+
+## 🔹 Key Observations
+
+* Backprop = chain rule applied systematically
+* Efficient:
+
+  * avoids recomputation
+* Works for:
+
+  * any number of layers
+
+---
+
+## 🔹 Important Insight
+
+* Each weight update depends on:
+
+  * how much it contributed to error
+
+---
+
+## 🔹 Why Backprop Works
+
+* Breaks complex gradient into:
+
+  * small local computations
+
+* Uses:
+
+  * intermediate values
+
+---
+
+## 🔹 Final Takeaways
+
+* Backprop computes:
+
+  * gradients layer-by-layer
+* Uses:
+
+  * delta terms
+* Recursive:
+
+  * error flows backward
+* Enables:
+
+  * training of deep networks
+
+---
+
+## 🔥 Core Understanding
+
+* Forward pass → compute output
+* Backward pass → compute gradients
+* Update → reduce loss
+
+---
+
+# 🧾 Week 2 – Video 7 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Gradient w.r.t Bias (Key Result)
+
+* Goal:
+  [
+  \frac{\partial L}{\partial B_i^l}
+  ]
+
+---
+
+### Direct Derivation Idea:
+
+* Use chain rule:
+  [
+  \frac{\partial L}{\partial B_i^l}
+  =
+  \frac{\partial L}{\partial Z_i^{l+1}}
+  \cdot
+  \frac{\partial Z_i^{l+1}}{\partial B_i^l}
+  ]
+
+---
+
+### Important Observation:
+
+* From:
+  [
+  Z_i^{l+1} = \sum W_{ij}^l A_j^l + B_i^l
+  ]
+
+👉 Derivative:
+[
+\frac{\partial Z_i^{l+1}}{\partial B_i^l} = 1
+]
+
+---
+
+### Final Result:
+
+[
+\frac{\partial L}{\partial B_i^l} = \delta_i^{l+1}
+]
+
+---
+
+### Meaning:
+
+* Bias gradient = **error at next layer**
+
+---
+
+## 🔹 Bias Update Rule
+
+Using gradient descent:
+
+[
+B_i^l = B_i^l - \alpha \frac{\partial L}{\partial B_i^l}
+]
+
+---
+
+### Substituting:
+
+[
+B_i^l = B_i^l - \alpha \delta_i^{l+1}
+]
+
+---
+
+### Insight:
+
+* Bias update depends directly on:
+
+  * error signal
+
+---
+
+## 🔹 General Bias Gradient (All Layers)
+
+[
+\frac{\partial L}{\partial B_i^l} = \delta_i^{l+1}
+]
+
+* Works for:
+
+  * all layers
+
+---
+
+## 🔹 Recap: Weight Gradient
+
+[
+\frac{\partial L}{\partial W_{ij}^l}
+= \delta_i^{l+1} \cdot A_j^l
+]
+
+---
+
+### Meaning:
+
+* Weight gradient =
+
+  * error × input
+
+---
+
+## 🔹 Delta Recursion (Full Rule)
+
+[
+\delta_i^l =
+\left( \sum_j \delta_j^{l+1} W_{ji}^l \right)
+\cdot f'(Z_i^l)
+]
+
+---
+
+### Key Idea:
+
+* Error flows backward
+* Each layer depends on next layer
+
+---
+
+## 🔹 Matrix Form of Backpropagation
+
+### Delta Equation:
+
+[
+\delta^l = (W^l)^T \delta^{l+1} \odot f'(Z^l)
+]
+
+* ( \odot ) = element-wise multiplication
+
+---
+
+### Meaning:
+
+* Multiply:
+
+  * transposed weights
+  * next layer error
+
+* Then apply:
+
+  * activation derivative
+
+---
+
+## 🔹 Weight Gradient (Matrix Form)
+
+[
+\frac{\partial L}{\partial W^l}
+= \delta^{l+1} (A^l)^T
+]
+
+---
+
+### Interpretation:
+
+* Outer product:
+
+  * error vector
+  * input vector
+
+---
+
+## 🔹 Outer Product Insight
+
+* Produces full weight matrix gradient
+* Efficient computation
+
+---
+
+## 🔹 Bias Gradient (Vector Form)
+
+[
+\frac{\partial L}{\partial B^l} = \delta^{l+1}
+]
+
+---
+
+## 🔹 Full Backprop Pipeline
+
+### Step 1:
+
+* Forward pass:
+
+  * compute ( Z, A )
+
+---
+
+### Step 2:
+
+* Compute output delta:
+  [
+  \delta^L = (\hat{Y} - Y) \cdot f'(Z^L)
+  ]
+
+---
+
+### Step 3:
+
+* Backward pass:
+  [
+  \delta^l = (W^l)^T \delta^{l+1} \cdot f'(Z^l)
+  ]
+
+---
+
+### Step 4:
+
+* Compute gradients:
+  [
+  \frac{\partial L}{\partial W^l}, \quad \frac{\partial L}{\partial B^l}
+  ]
+
+---
+
+### Step 5:
+
+* Update parameters:
+  [
+  \theta = \theta - \alpha \nabla L
+  ]
+
+---
+
+## 🔹 Why Backprop is Powerful
+
+* Works for:
+
+  * any number of layers
+* Efficient:
+
+  * reuses computations
+* Scalable:
+
+  * works for millions of parameters
+
+---
+
+## 🔹 Important Insight
+
+* Backprop = systematic chain rule
+* Breaks complex problem into:
+
+  * local computations
+
+---
+
+## 🔹 Practical Note
+
+* In real systems:
+
+  * PyTorch / TensorFlow compute automatically
+
+* But understanding:
+
+  * is essential
+
+---
+
+## 🔹 Key Terminology
+
+* Delta rule:
+
+  * error propagation rule
+
+* Backpropagation:
+
+  * error flows backward
+
+---
+
+## 🔹 Final Definition (Exam Ready)
+
+> Backpropagation is a principled method based on the chain rule to compute gradients of loss with respect to weights and biases by propagating error backward through the network, enabling efficient training of deep neural networks. 
+
+---
+
+## 🔹 Final Takeaways
+
+* Bias gradient = delta
+* Weight gradient = delta × input
+* Delta = propagated error
+* Matrix form simplifies computation
+* Backprop enables deep learning
+
+---
+
+## 🔥 Core Understanding
+
+* Forward → compute output
+* Backward → compute error
+* Update → reduce loss
+
