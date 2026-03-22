@@ -10,33 +10,33 @@ Computer Vision is the field of enabling machines to interpret and understand vi
 
 
 
-Key Problem:  
+Key Problem:
 
 Computers see images as matrices of numbers (pixel intensities), while humans interpret them as meaningful objects and scenes.
 
 
 
-Example:  
+Example:
 
-Image → \[255, 0, 120, ...] (computer view)  
+Image → \[255, 0, 120, ...] (computer view)
 
 Human → “person sitting in a room”
 
 
 
-Goal:  
+Goal:
 
 Convert numerical representation → semantic understanding.
 
 
 
-Why is it difficult?  
+Why is it difficult?
 
-Humans use memory, context, and prior knowledge  
+Humans use memory, context, and prior knowledge
 
-Machines rely only on data  
+Machines rely only on data
 
-Human visual system itself is not fully understood  
+Human visual system itself is not fully understood
 
 
 
@@ -50,41 +50,41 @@ To handle complexity, CV is divided into levels:
 
 
 
-Low-Level Vision:  
+Low-Level Vision:
 
-Edge detection  
+\- Edge detection
 
-Filtering  
+\- Filtering
 
-Noise removal  
+\- Noise removal
 
-Works directly on pixels  
-
-
-
-Mid-Level Vision:  
-
-Feature grouping  
-
-Shape detection  
-
-Object parts  
+\- Works directly on pixels
 
 
 
-High-Level Vision:  
+Mid-Level Vision:
 
-Object recognition  
+\- Feature grouping
 
-Scene understanding  
+\- Shape detection
 
-Semantic interpretation  
+\- Object parts
 
 
 
-Pipeline:  
+High-Level Vision:
 
-Pixels → Edges → Features → Structure → Meaning  
+\- Object recognition
+
+\- Scene understanding
+
+\- Semantic interpretation
+
+
+
+Pipeline:
+
+Pixels → Edges → Features → Structure → Meaning
 
 
 
@@ -94,19 +94,19 @@ Pixels → Edges → Features → Structure → Meaning
 
 
 
-Semantic Information:  
+Semantic Information:
 
-What is present in the image  
+\- What is present in the image
 
-Example: car, person, building  
+\- Example: car, person, building
 
 
 
-Metric Information:  
+Metric Information:
 
-Where is it, how far is it  
+\- Where is it, how far is it
 
-Example: distance, depth, position  
+\- Example: distance, depth, position
 
 
 
@@ -116,35 +116,35 @@ Example: distance, depth, position
 
 
 
-Parallax Concept:  
+Parallax Concept:
 
-Near objects move more  
+\- Near objects move more
 
-Far objects move less  
-
-
-
-Stereo Vision:  
-
-Two cameras (like human eyes)  
-
-Compare displacement → compute depth  
+\- Far objects move less
 
 
 
-Structure from Motion (SfM):  
+Stereo Vision:
 
-Single moving camera  
+\- Two cameras (like human eyes)
 
-Multiple images → reconstruct 3D structure  
+\- Compare displacement → compute depth
 
 
 
-Challenges:  
+Structure from Motion (SfM):
 
-Matching points across images  
+\- Single moving camera
 
-Camera motion estimation  
+\- Multiple images → reconstruct 3D structure
+
+
+
+Challenges:
+
+\- Matching points across images
+
+\- Camera motion estimation
 
 
 
@@ -154,41 +154,41 @@ Camera motion estimation
 
 
 
-Image Classification:  
+Image Classification:
 
-Assign one label  
+\- Assign one label
 
-Example: dog, cat  
-
-
-
-Object Detection:  
-
-Detect object + location (bounding box)  
+\- Example: dog, cat
 
 
 
-Segmentation:  
+Object Detection:
 
-Pixel-wise classification  
-
-
-
-Tracking:  
-
-Follow object across frames  
+\- Detect object + location (bounding box)
 
 
 
-Pose Estimation:  
+Segmentation:
 
-Detect body joints  
+\- Pixel-wise classification
 
 
 
-Activity Recognition:  
+Tracking:
 
-Identify actions  
+\- Follow object across frames
+
+
+
+Pose Estimation:
+
+\- Detect body joints
+
+
+
+Activity Recognition:
+
+\- Identify actions
 
 
 
@@ -198,27 +198,27 @@ Identify actions
 
 
 
-Supervised Learning:  
+Supervised Learning:
 
-Uses labeled data  
+\- Uses labeled data
 
-Example: image → label  
-
-
-
-Unsupervised Learning:  
-
-No labels  
-
-Example: clustering, PCA  
+\- Example: image → label
 
 
 
-Self-Supervised Learning:  
+Unsupervised Learning:
 
-Uses data structure itself  
+\- No labels
 
-Example: predicting depth from image sequences  
+\- Example: clustering, PCA
+
+
+
+Self-Supervised Learning:
+
+\- Uses data structure itself
+
+\- Example: predicting depth from image sequences
 
 
 
@@ -228,21 +228,21 @@ Example: predicting depth from image sequences
 
 
 
-Traditional CV:  
+Traditional CV:
 
-Handcrafted features (SIFT, HOG)  
+\- Handcrafted features (SIFT, HOG)
 
-Separate classifier (SVM)  
+\- Separate classifier (SVM)
 
 
 
-Deep Learning:  
+Deep Learning:
 
-End-to-end learning  
+\- End-to-end learning
 
-Automatic feature extraction  
+\- Automatic feature extraction
 
-Learns hierarchical features  
+\- Learns hierarchical features
 
 
 
@@ -252,29 +252,29 @@ Learns hierarchical features
 
 
 
-Equation:  
+Equation:
 
 $y = 1 \\text{ if } (w \\cdot x \\ge \\theta), \\text{ else } 0$
 
 
 
-Steps:  
+Steps:
 
-Multiply inputs with weights  
+\- Multiply inputs with weights
 
-Sum them  
+\- Sum them
 
-Compare with threshold  
+\- Compare with threshold
 
-Output binary result  
+\- Output binary result
 
 
 
-Interpretation:  
+Interpretation:
 
-Linear classifier  
+\- Linear classifier
 
-Creates decision boundary (line)  
+\- Creates decision boundary (line)
 
 
 
@@ -284,15 +284,15 @@ Creates decision boundary (line)
 
 
 
-If data can be separated using a straight line → linearly separable  
+If data can be separated using a straight line → linearly separable
 
 
 
-Example:  
+Example:
 
-OR gate → separable  
+\- OR gate → separable
 
-XOR gate → not separable  
+\- XOR gate → not separable
 
 
 
@@ -302,19 +302,19 @@ XOR gate → not separable
 
 
 
-Truth Table:  
+Truth Table:
 
-(0,0) → 0  
+\- (0,0) → 0
 
-(0,1) → 1  
+\- (0,1) → 1
 
-(1,0) → 1  
+\- (1,0) → 1
 
-(1,1) → 0  
+\- (1,1) → 0
 
 
 
-Cannot be separated by one line → perceptron fails  
+Cannot be separated by one line → perceptron fails
 
 
 
@@ -324,29 +324,29 @@ Cannot be separated by one line → perceptron fails
 
 
 
-Solution:  
+Solution:
 
-Use multiple neurons + hidden layers  
-
-
-
-Structure:  
-
-Input → Hidden → Output  
+Use multiple neurons + hidden layers
 
 
 
-Hidden layer:  
+Structure:
 
-Creates multiple linear boundaries  
-
-Combines them to form non-linear boundary  
+Input → Hidden → Output
 
 
 
-Key Idea:  
+Hidden layer:
 
-Multiple lines → complex shapes  
+\- Creates multiple linear boundaries
+
+\- Combines them to form non-linear boundary
+
+
+
+Key Idea:
+
+Multiple lines → complex shapes
 
 
 
@@ -356,23 +356,23 @@ Multiple lines → complex shapes
 
 
 
-Without activation:  
+Without activation:
 
-Network is linear  
+\- Network is linear
 
-Equivalent to single perceptron  
-
-
-
-With activation:  
-
-Enables complex decision boundaries  
+\- Equivalent to single perceptron
 
 
 
-Conclusion:  
+With activation:
 
-Non-linearity is essential  
+\- Enables complex decision boundaries
+
+
+
+Conclusion:
+
+Non-linearity is essential
 
 
 
@@ -382,33 +382,33 @@ Non-linearity is essential
 
 
 
-Goal:  
+Goal:
 
-Learn weights automatically  
-
-
-
-Steps:  
-
-Initialize weights randomly  
-
-For each data point:  
-
-If positive misclassified → $W = W + X$  
-
-If negative misclassified → $W = W - X$  
+Learn weights automatically
 
 
 
-Effect:  
+Steps:
 
-Adjusts decision boundary  
+\- Initialize weights randomly
+
+\- For each data point:
+
+&#x20; - If positive misclassified → $W = W + X$
+
+&#x20; - If negative misclassified → $W = W - X$
 
 
 
-Limitation:  
+Effect:
 
-Works only if data is linearly separable  
+Adjusts decision boundary
+
+
+
+Limitation:
+
+Works only if data is linearly separable
 
 
 
@@ -418,23 +418,23 @@ Works only if data is linearly separable
 
 
 
-Statement:  
+Statement:
 
-A neural network with one hidden layer can approximate any continuous function.  
-
-
-
-Implication:  
-
-Neural networks are universal function approximators  
+A neural network with one hidden layer can approximate any continuous function.
 
 
 
-Limitations:  
+Implication:
 
-Needs sufficient neurons  
+Neural networks are universal function approximators
 
-Needs proper training  
+
+
+Limitations:
+
+\- Needs sufficient neurons
+
+\- Needs proper training
 
 
 
@@ -444,23 +444,23 @@ Needs proper training
 
 
 
-Success Factors:  
+Success Factors:
 
-Large datasets  
+\- Large datasets
 
-GPU computing  
+\- GPU computing
 
-Better algorithms  
+\- Better algorithms
 
 
 
-Limitations:  
+Limitations:
 
-Needs data  
+\- Needs data
 
-Not interpretable  
+\- Not interpretable
 
-Can fail in real-world conditions  
+\- Can fail in real-world conditions
 
 
 
@@ -474,5 +474,5 @@ Perceptron → draws a line
 
 MLP → combines multiple lines  
 
-Deep Network → approximates complex functions  
+Deep Network → approximates complex functions
 
