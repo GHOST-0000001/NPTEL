@@ -11,9 +11,9 @@
   * Input-output pairs ((x, y))
 
 * Goal:
-  [
-  \hat{y} = f(x) \approx g(x)
-  ]
+$$
+\hat{y} = f(x) \approx g(x)
+$$
 
 * Unknown:
 
@@ -29,19 +29,19 @@
 ## 🔹 Perceptron Learning Recap
 
 * Decision rule:
-  [
-  W^T X \ge 0 \rightarrow \text{positive}, \quad W^T X < 0 \rightarrow \text{negative}
-  ]
+$$
+W^T X \ge 0 \rightarrow \text{positive}, \quad W^T X < 0 \rightarrow \text{negative}
+$$
 
 * Update rule:
 
-  * Positive misclassified → ( W = W + X )
-  * Negative misclassified → ( W = W - X )
+  * Positive misclassified → $W = W + X$
+  * Negative misclassified → $W = W - X$
 
 * Geometric view:
-  [
-  W^T X = |W||X|\cos(\theta)
-  ]
+$$
+W^T X = |W||X|\cos(\theta)
+$$
 
 * Learning adjusts:
 
@@ -58,9 +58,9 @@
   * sufficient neurons
 
 * Can approximate any function:
-  [
-  |g(x) - f(x)| < \epsilon
-  ]
+$$
+|g(x) - f(x)| < \epsilon
+$$
 
 * Limitation:
 
@@ -137,9 +137,9 @@
 
 ### Regression:
 
-[
+$$
 L = \frac{1}{L} \sum (\hat{Y} - Y)^2
-]
+$$
 
 * Use: Mean Squared Error
 
@@ -147,9 +147,9 @@ L = \frac{1}{L} \sum (\hat{Y} - Y)^2
 
 ### Classification:
 
-[
+$$
 H(P, Q) = -\sum P_i \log Q_i
-]
+$$
 
 * Use: Cross Entropy
 
@@ -165,19 +165,19 @@ H(P, Q) = -\sum P_i \log Q_i
 ## 🔹 Information Theory Concepts
 
 * Information:
-  [
-  I(A) = -\log P(A)
-  ]
+$$
+I(A) = -\log P(A)
+$$
 
 * Entropy:
-  [
-  H(P) = -\sum P_i \log P_i
-  ]
+$$
+H(P) = -\sum P_i \log P_i
+$$
 
 * Cross Entropy:
-  [
-  H(P, Q) = -\sum P_i \log Q_i
-  ]
+$$
+H(P, Q) = -\sum P_i \log Q_i
+$$
 
 ---
 
@@ -240,9 +240,9 @@ H(P, Q) = -\sum P_i \log Q_i
 
 ### Update rule:
 
-[
+$$
 \theta_{n+1} = \theta_n - \alpha \nabla L(\theta)
-]
+$$
 
 ---
 
@@ -260,18 +260,18 @@ H(P, Q) = -\sum P_i \log Q_i
 
 ### Taylor approximation:
 
-[
+$$
 L(\theta + \alpha \Delta \theta)
 ≈ L(\theta) + \alpha \Delta \theta^T \nabla L
-]
+$$
 
 ---
 
 ### Optimal direction:
 
-[
+$$
 \Delta \theta = - \nabla L
-]
+$$
 
 ---
 
@@ -299,9 +299,9 @@ L(\theta + \alpha \Delta \theta)
 
 ### ReLU:
 
-[
+$$
 f(x) = \max(0,x)
-]
+$$
 
 * efficient
 * widely used
@@ -336,56 +336,56 @@ f(x) = \max(0,x)
 
 ## 🔹 Notation
 
-[
+$$
 Z^l = W^{l-1} A^{l-1} + B^l
-]
+$$
 
-[
+$$
 A^l = f(Z^l)
-]
+$$
 
 ---
 
 ## 🔹 Delta Definition
 
-[
+$$
 \delta^l = \frac{\partial L}{\partial Z^l}
-]
+$$
 
 ---
 
 ## 🔹 Output Layer Delta
 
-[
+$$
 \delta^L = (\hat{Y} - Y) \cdot f'(Z^L)
-]
+$$
 
 ---
 
 ## 🔹 Hidden Layer Delta
 
-[
+$$
 \delta^l =
 (W^l)^T \delta^{l+1} \cdot f'(Z^l)
-]
+$$
 
 ---
 
 ## 🔹 Weight Gradient
 
-[
+$$
 \frac{\partial L}{\partial W^l}
 = \delta^{l+1} (A^l)^T
-]
+$$
 
 ---
 
 ## 🔹 Bias Gradient
 
-[
+$$
 \frac{\partial L}{\partial B^l}
 = \delta^{l+1}
-]
+$$
 
 ---
 
@@ -412,13 +412,13 @@ A^l = f(Z^l)
 
 ## 🔹 Matrix Form (Efficient Computation)
 
-[
+$$
 \delta^l = (W^l)^T \delta^{l+1} \odot f'(Z^l)
-]
+$$
 
-[
+$$
 \frac{\partial L}{\partial W^l} = \delta^{l+1} (A^l)^T
-]
+$$
 
 ---
 

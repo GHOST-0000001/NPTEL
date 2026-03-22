@@ -126,7 +126,9 @@ Deep Learning:
 8. PERCEPTRON (NEURON MODEL)
 
 Equation:
-y = 1 if (w.x ≥ θ), else 0
+$$
+y = 1 \text{ if } (w \cdot x \ge \theta), \text{ else } 0
+$$
 
 Steps:
 1. Multiply inputs with weights
@@ -196,8 +198,8 @@ Learn weights automatically
 Steps:
 1. Initialize weights randomly
 2. For each data point:
-   - If positive misclassified → W = W + X
-   - If negative misclassified → W = W - X
+   - If positive misclassified → $W = W + X$
+   - If negative misclassified → $W = W - X$
 
 Effect:
 Adjusts decision boundary
@@ -237,6 +239,3 @@ FINAL INTUITION
 Perceptron → draws a line  
 MLP → combines multiple lines  
 Deep Network → approximates complex functions
-
-
----
