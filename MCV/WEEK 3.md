@@ -4,8 +4,9 @@
 
 Real training uses multiple samples, not single input
 
-$L = \frac{1}{LM} \sum_{j=1}^{L} \sum_{i=1}^{M} (\hat{Y}_{ij} - Y_{ij})^2$
-
+$$
+L = \frac{1}{LM} \sum_{j=1}^{L} \sum_{i=1}^{M} (\hat{Y}_{ij} - Y_{ij})^2
+$$
 Loss is averaged across:
 - all samples
 - all outputs
