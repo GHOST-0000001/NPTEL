@@ -1,0 +1,2962 @@
+---
+
+# 🧾 Week 3 – Video 1 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Training with Multiple Data Samples
+
+* Previously:
+
+  * Loss was computed for **single example**
+
+* In reality:
+
+  * Dataset has **many samples**
+
+---
+
+### Example:
+
+* Image denoising:
+
+  * ( Y_i ) → actual image
+  * ( \hat{Y}_i ) → predicted image
+
+---
+
+### Loss over dataset:
+
+[
+L = \frac{1}{LM} \sum_{j=1}^{L} \sum_{i=1}^{M} (\hat{Y}*{ij} - Y*{ij})^2
+]
+
+* ( L ) = number of examples
+* ( M ) = output dimension
+
+---
+
+### Key Idea:
+
+* Loss is averaged over:
+
+  * all samples
+  * all outputs
+
+---
+
+## 🔹 Problem with Using All Data
+
+* If dataset is large:
+
+  * millions of samples
+
+* Then:
+
+  * computing loss over ALL data before update is:
+
+    * very slow
+    * memory intensive
+
+---
+
+## 🔹 Types of Gradient Descent
+
+---
+
+### 🔸 1. Batch Gradient Descent
+
+* Uses:
+
+  * entire dataset for each update
+
+---
+
+### Process:
+
+1. Compute loss over ALL data
+2. Compute gradient
+3. Update weights
+
+---
+
+### Problem:
+
+* Very slow
+* High computation
+* Delayed updates
+
+---
+
+### Conclusion:
+
+* Not used in practice
+
+---
+
+## 🔸 2. Stochastic Gradient Descent (SGD)
+
+* Uses:
+
+  * ONE sample at a time
+
+---
+
+### Process:
+
+1. Take one example
+2. Compute gradient
+3. Update weights
+
+---
+
+### Advantage:
+
+* Fast updates
+
+---
+
+### Problem:
+
+* Highly unstable
+* Oscillatory behavior
+
+---
+
+### Reason:
+
+* Each sample pushes weights in different direction
+
+---
+
+### Conclusion:
+
+* Not ideal alone
+
+---
+
+## 🔸 3. Mini-Batch Gradient Descent (MOST IMPORTANT)
+
+* Uses:
+
+  * small batch of data
+
+---
+
+### Process:
+
+1. Divide dataset into batches
+2. For each batch:
+
+   * compute loss
+   * update weights
+
+---
+
+### Definitions:
+
+* Batch size = ( M )
+* Total samples = ( N )
+
+---
+
+### Number of batches:
+
+[
+\frac{N}{M}
+]
+
+---
+
+### Key Idea:
+
+* Balance between:
+
+  * batch GD (slow)
+  * SGD (unstable)
+
+---
+
+### Important:
+
+* All data is eventually used
+
+---
+
+## 🔹 Iteration vs Epoch
+
+### Iteration:
+
+* One mini-batch update
+
+---
+
+### Epoch:
+
+* One complete pass over entire dataset
+
+---
+
+### Important:
+
+* Training requires:
+
+  * multiple epochs
+
+---
+
+## 🔹 Optimization Beyond Basic GD
+
+* Standard GD:
+
+  * simple but slow
+
+* Need:
+
+  * faster convergence
+
+---
+
+## 🔹 Momentum-Based Gradient Descent
+
+---
+
+### Idea:
+
+* Use past gradients to accelerate learning
+
+---
+
+### Update Rule:
+
+[
+V_t = \gamma V_{t-1} + \alpha \nabla L(\theta_t)
+]
+
+[
+\theta_{t+1} = \theta_t - V_t
+]
+
+---
+
+### Where:
+
+* ( \gamma ) = momentum factor (0 to 1)
+* ( V_t ) = velocity
+
+---
+
+## 🔹 Interpretation
+
+* Combines:
+
+  * current gradient
+  * past direction
+
+---
+
+### Effect:
+
+* Faster movement in consistent direction
+* Reduces slow progress
+
+---
+
+## 🔹 Intuition
+
+* Like pushing a ball downhill:
+
+  * builds speed over time
+
+---
+
+## 🔹 Advantage
+
+* Faster convergence
+* Fewer iterations
+
+---
+
+## 🔹 Problem
+
+* Near minimum:
+
+  * may overshoot
+  * causes oscillations
+
+---
+
+## 🔹 Why Oscillation Happens
+
+* Momentum carries forward
+* Even when direction changes
+
+---
+
+## 🔹 Exponentially Weighted Average
+
+* Momentum accumulates:
+
+[
+V_t = \gamma V_{t-1} + ...
+]
+
+---
+
+### Meaning:
+
+* Past gradients contribute less over time
+* Recent gradients dominate
+
+---
+
+## 🔹 When Momentum Helps Most
+
+* Flat regions (small gradient)
+* Accelerates learning
+
+---
+
+## 🔹 Nesterov Accelerated Gradient (NAG)
+
+---
+
+### Idea:
+
+* Look ahead before updating
+
+---
+
+### Modified Update:
+
+[
+V_t = \gamma V_{t-1} + \alpha \nabla L(\theta_t - \gamma V_{t-1})
+]
+
+---
+
+### Key Difference:
+
+* Gradient computed at:
+
+  * future position
+
+---
+
+## 🔹 Intuition
+
+* “Look before you leap”
+
+---
+
+### Without NAG:
+
+* Large jump → overshoot
+
+---
+
+### With NAG:
+
+* Detect slope change early
+* Reduce step size
+
+---
+
+## 🔹 Effect
+
+* Less oscillation
+* More stable convergence
+
+---
+
+## 🔹 When Useful
+
+* Near minima
+* When direction changes
+
+---
+
+## 🔹 Key Comparison
+
+| Method        | Behavior    |
+| ------------- | ----------- |
+| Batch GD      | Slow        |
+| SGD           | Noisy       |
+| Mini-batch GD | Balanced    |
+| Momentum      | Faster      |
+| NAG           | More stable |
+
+---
+
+## 🔹 Learning Rate (α)
+
+* Controls step size
+
+---
+
+### Important Insight:
+
+* α does NOT have to be constant
+
+---
+
+### Can be:
+
+* tuned
+* adaptive
+
+---
+
+## 🔹 Why Optimize Learning Rate?
+
+* Different parameters:
+
+  * may require different step sizes
+
+---
+
+## 🔹 Optimization vs Regularization
+
+### Optimization:
+
+* Speed of learning
+
+---
+
+### Regularization:
+
+* Prevent overfitting
+
+---
+
+## 🔹 Regularization (Preview)
+
+* Goal:
+
+  * simpler models
+  * better generalization
+
+---
+
+### Idea:
+
+* Constrain weights
+* Avoid large unnecessary weights
+
+---
+
+### Connection:
+
+* Related to **Occam’s Razor**
+
+---
+
+## 🔹 Key Takeaways
+
+* Training uses multiple samples
+* Mini-batch GD is standard
+* Epoch = full dataset pass
+* Momentum:
+
+  * speeds up training
+* NAG:
+
+  * reduces oscillations
+* Learning rate:
+
+  * crucial parameter
+
+---
+
+## 🔥 Core Understanding
+
+* Data → split into batches
+* Each batch → one update
+* Momentum → adds speed
+* NAG → adds control
+
+---
+
+# 🧾 Week 3 – Video 2 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Learning Rate (α) Adjustment Problem
+
+* Learning rate (α):
+
+  * controls step size in gradient descent
+
+---
+
+### Basic options (naive approaches):
+
+#### 1. Keep α constant
+
+* Same step size throughout training
+
+---
+
+### Problem:
+
+* Not efficient:
+
+  * large α → overshooting
+  * small α → slow learning
+
+---
+
+#### 2. Reduce α after fixed iterations
+
+* Example:
+
+  * reduce α every n iterations
+
+---
+
+### Problem:
+
+* No clear rule:
+
+  * how many iterations?
+* Not adaptive to data
+
+---
+
+#### 3. Exponential decay
+
+[
+\alpha = \alpha_0 e^{-kt}
+]
+
+---
+
+### Idea:
+
+* Reduce α over time
+
+---
+
+### Problem:
+
+* Still heuristic
+* Not based on gradient behavior
+
+---
+
+## 🔹 Need for Better Method
+
+* Learning rate should:
+
+  * adapt automatically
+  * depend on gradients
+
+---
+
+## 🔹 Adaptive Gradient (AdaGrad Idea)
+
+---
+
+### Key Concept:
+
+* Adjust learning rate per parameter
+
+---
+
+### Update Rule:
+
+[
+r_t = r_{t-1} + (\nabla L(\theta_t))^2
+]
+
+[
+\theta_{t+1} = \theta_t - \frac{\alpha}{\sqrt{r_t + \delta}} \nabla L(\theta_t)
+]
+
+---
+
+### Where:
+
+* ( r_t ) = accumulated squared gradients
+* ( \delta ) = small value (avoid divide by 0)
+
+---
+
+## 🔹 Important Insight
+
+* If gradient is small:
+
+  * ( r_t ) small
+  * learning rate increases
+
+---
+
+* If gradient is large:
+
+  * ( r_t ) large
+  * learning rate decreases
+
+---
+
+## 🔹 Effect
+
+* Automatically adjusts step size
+* Helps:
+
+  * slow directions → accelerate
+  * fast directions → slow down
+
+---
+
+## 🔹 Element-wise Operation
+
+* Each parameter:
+
+  * has its own learning rate
+
+---
+
+### Meaning:
+
+* Different weights update differently
+
+---
+
+## 🔹 Advantage
+
+* Adaptive learning
+* No manual tuning needed
+
+---
+
+## 🔹 Problem with AdaGrad
+
+* ( r_t ) keeps increasing over time
+
+---
+
+### Effect:
+
+* Learning rate:
+  [
+  \frac{\alpha}{\sqrt{r_t}} \rightarrow 0
+  ]
+
+---
+
+### Result:
+
+* Step size becomes very small
+* Learning slows down
+
+---
+
+## 🔹 Key Issue
+
+* Accumulating history indefinitely
+* No forgetting mechanism
+
+---
+
+## 🔹 Insight
+
+* History is useful
+* BUT:
+
+  * should not dominate completely
+
+---
+
+## 🔹 Adam Optimizer (MOST IMPORTANT)
+
+---
+
+### Idea:
+
+* Combine:
+
+  * momentum
+  * adaptive learning
+
+---
+
+## 🔹 Adam Equations
+
+### First moment (mean):
+
+[
+S_t = \rho_1 S_{t-1} + (1 - \rho_1)\nabla L(\theta_t)
+]
+
+---
+
+### Second moment (variance):
+
+[
+r_t = \rho_2 r_{t-1} + (1 - \rho_2)(\nabla L(\theta_t))^2
+]
+
+---
+
+### Parameter update:
+
+[
+\theta_{t+1} =
+\theta_t - \frac{\alpha}{\sqrt{r_t^{\sim}} + \delta} S_t^{\sim}
+]
+
+---
+
+## 🔹 Bias Correction
+
+[
+S_t^{\sim} = \frac{S_t}{1 - \rho_1^t}
+]
+
+[
+r_t^{\sim} = \frac{r_t}{1 - \rho_2^t}
+]
+
+---
+
+## 🔹 Why Bias Correction?
+
+* Initial values:
+
+  * biased toward zero
+
+* Correction:
+
+  * makes estimates accurate
+
+---
+
+## 🔹 Intuition of Adam
+
+* ( S_t ):
+
+  * direction (momentum)
+
+* ( r_t ):
+
+  * scaling (adaptive learning rate)
+
+---
+
+## 🔹 Exponential Weighting
+
+* Recent gradients:
+
+  * more important
+
+* Older gradients:
+
+  * less important
+
+---
+
+## 🔹 Advantage of Adam
+
+* Fast convergence
+* Stable updates
+* Works well in practice
+
+---
+
+## 🔹 Most Used Optimizer
+
+* Adam is:
+
+  * default choice in deep learning
+
+---
+
+## 🔹 Key Properties
+
+* Combines:
+
+  * momentum
+  * adaptive scaling
+
+* Handles:
+
+  * sparse gradients
+  * noisy data
+
+---
+
+## 🔹 Optimization vs Regularization
+
+### Optimization:
+
+* Goal:
+
+  * reach minimum faster
+
+---
+
+### Regularization:
+
+* Goal:
+
+  * generalize better
+
+---
+
+## 🔹 Training vs Validation Error
+
+---
+
+### Training Error:
+
+* Error on training data
+* Always decreases
+
+---
+
+### Validation Error:
+
+* Error on unseen data
+
+---
+
+### Behavior:
+
+* Initially:
+
+  * decreases
+
+* Later:
+
+  * may increase
+
+---
+
+## 🔹 Overfitting
+
+* Training error:
+
+  * low
+
+* Validation error:
+
+  * high
+
+---
+
+## 🔹 Key Insight
+
+* Do NOT minimize training error to zero
+* Focus on generalization
+
+---
+
+## 🔹 Early Stopping
+
+* Stop training:
+
+  * when validation error increases
+
+---
+
+### Benefit:
+
+* prevents overfitting
+
+---
+
+## 🔹 Data Augmentation
+
+---
+
+### Idea:
+
+* Create new data from existing data
+
+---
+
+## 🔹 Types
+
+### 1. Geometric Transformations
+
+* rotation
+* translation
+* scaling
+* shear
+
+---
+
+### 2. Photometric Transformations
+
+* noise
+* blur
+* brightness change
+* shadows
+
+---
+
+### Goal:
+
+* increase data diversity
+* improve generalization
+
+---
+
+## 🔹 Regularization using Weights
+
+---
+
+### Modified Loss:
+
+[
+L_{new} = L + \beta ||W||^2
+]
+
+---
+
+### Meaning:
+
+* penalize large weights
+
+---
+
+### Effect:
+
+* simpler model
+* avoids overfitting
+
+---
+
+## 🔹 Other Regularization Methods
+
+* Dropout (mentioned)
+* Weight constraints
+
+---
+
+## 🔹 Key Takeaways
+
+* Learning rate must adapt
+* AdaGrad:
+
+  * adaptive but slows down
+* Adam:
+
+  * best practical optimizer
+* Regularization:
+
+  * improves generalization
+* Early stopping:
+
+  * prevents overfitting
+* Data augmentation:
+
+  * increases dataset diversity
+
+---
+
+## 🔥 Core Understanding
+
+* Optimization → speed
+* Regularization → generalization
+* Adam → best balance
+
+---
+
+# 🧾 Week 3 – Video 3 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Regularization (Core Idea Recap)
+
+* Goal:
+
+  * Improve **generalization**
+  * Avoid overfitting
+
+---
+
+### Meaning:
+
+* Reduce unnecessary weights
+* Keep only important parameters
+
+---
+
+## 🔹 L2 Regularization (Weight Decay)
+
+---
+
+### Modified Cost Function:
+
+[
+\tilde{L}(W) = L(W) + \frac{\beta}{2} ||W||^2
+]
+
+---
+
+### Where:
+
+* ( L(W) ):
+
+  * original loss (MSE / Cross Entropy)
+* ( \beta ):
+
+  * regularization strength (hyperparameter)
+
+---
+
+## 🔹 Effect of L2 Regularization
+
+* Penalizes large weights
+* Encourages:
+
+  * smaller weights
+  * simpler models
+
+---
+
+## 🔹 Gradient of New Cost
+
+[
+\nabla \tilde{L}(W) = \nabla L(W) + \beta W
+]
+
+---
+
+### Meaning:
+
+* Extra term pushes weights toward zero
+
+---
+
+## 🔹 Key Insight
+
+* Only **important weights remain large**
+* Less important weights shrink
+
+---
+
+## 🔹 Eigenvalue Interpretation (VERY IMPORTANT)
+
+* Weight update influenced by:
+
+  * Hessian matrix ( H )
+
+---
+
+### Result:
+
+[
+W_{\text{new}} = Q (\Lambda + \beta I)^{-1} \Lambda Q^T W^*
+]
+
+---
+
+### Meaning:
+
+* Weights are:
+
+  * rotated → scaled → rotated back
+
+---
+
+## 🔹 Scaling Effect
+
+Each component scaled by:
+
+[
+\frac{\lambda_i}{\lambda_i + \beta}
+]
+
+---
+
+### Case 1: Large ( \lambda_i )
+
+* Scaling ≈ 1
+* Important weights preserved
+
+---
+
+### Case 2: Small ( \lambda_i )
+
+* Scaling ≈ 0
+* Unimportant weights suppressed
+
+---
+
+## 🔹 Key Interpretation
+
+* High-variance directions → kept
+* Low-variance directions → removed
+
+---
+
+## 🔹 Hyperparameter (β)
+
+* Controls:
+
+  * strength of regularization
+
+---
+
+### Important:
+
+* Must be tuned manually
+* Too large → underfitting
+* Too small → overfitting
+
+---
+
+## 🔹 Softmax Function (Classification)
+
+---
+
+### Problem:
+
+* Multi-class classification
+
+---
+
+### Cannot use:
+
+* sigmoid (only binary)
+
+---
+
+## 🔹 Softmax Definition
+
+[
+\sigma(\hat{Y}_i) =
+\frac{e^{\hat{Y}*i}}{\sum*{j=1}^{n} e^{\hat{Y}_j}}
+]
+
+---
+
+### Properties:
+
+* Output:
+
+  * between 0 and 1
+* Sum of all outputs:
+  [
+  \sum \sigma(\hat{Y}_i) = 1
+  ]
+
+---
+
+## 🔹 Purpose
+
+* Convert raw outputs → probabilities
+
+---
+
+## 🔹 Important Insight
+
+* Input can be ANY real number
+* Softmax converts → probability distribution
+
+---
+
+## 🔹 One-Hot Encoding
+
+---
+
+### Target Vector:
+
+Example:
+[
+Y = [0,0,1,0,...]
+]
+
+---
+
+### Meaning:
+
+* Only one class = 1
+* Others = 0
+
+---
+
+## 🔹 Cross Entropy Loss
+
+[
+L = -\sum Y_i \log \hat{Y}_i
+]
+
+---
+
+### Effect:
+
+* Penalizes wrong predictions strongly
+
+---
+
+## 🔹 Key Flow (Classification)
+
+1. Network outputs raw scores
+2. Apply softmax
+3. Get probabilities
+4. Compare with one-hot labels
+5. Compute cross entropy
+
+---
+
+## 🔹 Noise Injection (Very Important Trick)
+
+---
+
+### Idea:
+
+* Add noise to input
+
+---
+
+### Input becomes:
+
+[
+x_i + \epsilon_i
+]
+
+* ( \epsilon_i \sim N(0, \sigma^2) )
+
+---
+
+## 🔹 Output with Noise
+
+[
+y_{noisy} = \sum w_i(x_i + \epsilon_i)
+= y + \sum w_i \epsilon_i
+]
+
+---
+
+## 🔹 Effect on Loss
+
+[
+E[(y_{noisy} - t)^2]
+====================
+
+(y - t)^2 + \sigma^2 \sum w_i^2
+]
+
+---
+
+## 🔹 Key Result
+
+* Equivalent to:
+
+[
+L + \lambda ||W||^2
+]
+
+---
+
+## 🔹 Conclusion
+
+👉 Noise injection ≈ L2 regularization (for MSE)
+
+---
+
+## 🔹 Important Insight
+
+* Adding noise:
+
+  * forces model to be robust
+  * prevents overfitting
+
+---
+
+## 🔹 Types of Regularization Covered
+
+* L2 Regularization
+* Early Stopping
+* Data Augmentation
+* Noise Injection
+
+---
+
+## 🔹 Hyperparameters
+
+* Not learned
+* Must be tuned
+
+---
+
+### Examples:
+
+* β (regularization strength)
+* number of layers
+* learning rate
+
+---
+
+## 🔹 Key Takeaways
+
+* Regularization:
+
+  * reduces overfitting
+* L2:
+
+  * shrinks weights
+* Softmax:
+
+  * converts outputs to probabilities
+* One-hot:
+
+  * represents labels
+* Noise:
+
+  * acts like regularization
+
+---
+
+## 🔥 Core Understanding
+
+* Big weights → complex model → overfitting
+* Regularization → controls complexity
+* Softmax → probability output
+* Noise → robustness
+
+---
+
+# 🧾 Week 3 – Video 4 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Dropout (Core Idea)
+
+* Dropout = **regularization technique**
+* Goal:
+
+  * prevent **overfitting**
+  * improve **generalization**
+
+---
+
+## 🔹 Basic Concept
+
+* Randomly **deactivate neurons** during training
+* Deactivated neuron:
+
+  * does NOT:
+
+    * receive input
+    * send output
+    * participate in forward/backward pass
+
+---
+
+## 🔹 Effect on Network
+
+* Network becomes:
+
+  * a **smaller sub-network** during training
+
+* Each training step:
+
+  * different sub-network
+
+---
+
+## 🔹 Important Behavior
+
+* Dropped neuron:
+
+  * completely ignored
+* No gradients flow through it
+
+---
+
+## 🔹 Why Dropout is Needed
+
+* Without dropout:
+
+  * some neurons dominate
+  * others become inactive
+
+---
+
+### Problem:
+
+* Leads to:
+
+  * overfitting
+* Only few neurons learn useful features
+
+---
+
+## 🔹 Key Idea
+
+* Force ALL neurons to:
+
+  * learn useful features
+
+---
+
+## 🔹 Dropout Process
+
+* For each mini-batch:
+
+  * randomly drop neurons
+
+---
+
+### Important:
+
+* Dropping happens:
+
+  * once per mini-batch
+  * not per iteration inside batch
+
+---
+
+## 🔹 Dropout Probability
+
+* Neurons dropped with probability:
+
+[
+p \approx 0.5
+]
+
+* Typically:
+
+  * hidden layers → 0.5
+
+---
+
+## 🔹 During Training
+
+* Only active neurons:
+
+  * participate in:
+
+    * forward pass
+    * backward pass
+
+---
+
+## 🔹 During Testing (VERY IMPORTANT)
+
+* No neurons are dropped
+
+---
+
+### But:
+
+* Outputs are scaled:
+
+[
+\text{activation} \times p
+]
+
+---
+
+### Reason:
+
+* Maintain expected output
+* Match training behavior
+
+---
+
+## 🔹 Key Insight
+
+* Dropout does NOT:
+
+  * reduce total number of parameters
+
+* It:
+
+  * improves generalization
+
+---
+
+## 🔹 Intuition
+
+* Like training:
+
+  * multiple smaller networks
+
+* Final model:
+
+  * behaves like ensemble
+
+---
+
+## 🔹 Important Effect
+
+* Prevents:
+
+  * co-adaptation of neurons
+
+---
+
+## 🔹 Co-adaptation Meaning
+
+* Neurons relying too much on each other
+
+---
+
+## 🔹 Dropout Forces
+
+* Independent feature learning
+
+---
+
+## 🔹 Summary of Dropout
+
+* Random neuron removal
+* Different network per batch
+* Improves robustness
+* Acts as regularization
+
+---
+
+## 🔹 Gradient Descent – Steps per Epoch (Important Table)
+
+Let:
+
+* ( N ) = total samples
+* ( B ) = batch size
+
+---
+
+### Batch Gradient Descent:
+
+* Steps per epoch:
+  [
+  1
+  ]
+
+---
+
+### Stochastic Gradient Descent:
+
+* Steps per epoch:
+  [
+  N
+  ]
+
+---
+
+### Mini-Batch Gradient Descent:
+
+[
+\frac{N}{B}
+]
+
+---
+
+## 🔹 Key Insight
+
+* Steps = number of updates
+
+---
+
+## 🔹 Important Understanding
+
+* Mini-batch:
+
+  * updates happen within epoch
+* Each batch:
+
+  * one update
+
+---
+
+## 🔹 Output Type vs Loss vs Activation (Important Table)
+
+---
+
+### Case 1: Regression
+
+* Output:
+
+  * real values
+
+* Activation:
+
+  * linear
+
+* Loss:
+
+  * Mean Squared Error
+
+---
+
+### Case 2: Classification
+
+* Output:
+
+  * probabilities
+
+* Activation:
+
+  * softmax
+
+* Loss:
+
+  * Cross Entropy
+
+---
+
+## 🔹 Key Insight
+
+* Choice depends on problem
+
+---
+
+## 🔹 Important Clarification
+
+* Sigmoid:
+
+  * only for binary classification
+
+* Softmax:
+
+  * for multi-class
+
+---
+
+## 🔹 Final Takeaways
+
+* Dropout:
+
+  * prevents overfitting
+* Each mini-batch:
+
+  * different network
+* Training vs testing:
+
+  * different behavior
+* Mini-batch GD:
+
+  * most practical
+* Output design:
+
+  * depends on task
+
+---
+
+## 🔥 Core Understanding
+
+* Overfitting = few neurons dominate
+* Dropout = force all neurons to learn
+* Final model = robust + generalized
+
+---
+
+# 🧾 Week 3 – Video 5 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Preprocessing (Core Idea)
+
+* Goal:
+
+  * stabilize training
+  * prevent:
+
+    * exploding values
+    * vanishing gradients
+
+---
+
+## 🔹 Why Preprocessing is Needed
+
+* Neural networks:
+
+  * involve many layers
+  * many weighted sums
+
+---
+
+### Problem:
+
+* Values can:
+
+  * grow too large → explosion
+  * become too small → vanish
+
+---
+
+### Example:
+
+* Sigmoid:
+
+  * large input → saturation
+  * gradient → near zero
+
+---
+
+## 🔹 Input Preprocessing (Standard)
+
+---
+
+### Convert to:
+
+[
+\text{Zero mean, Unit variance}
+]
+
+---
+
+### Formula:
+
+[
+x' = \frac{x - \mu}{\sigma}
+]
+
+---
+
+### Effect:
+
+* Mean = 0
+* Variance = 1
+
+---
+
+## 🔹 Benefit
+
+* Keeps inputs:
+
+  * balanced
+  * stable
+
+---
+
+## 🔹 Problem Across Layers
+
+* Even if input is normalized:
+
+  * deeper layers may not be
+
+---
+
+### Reason:
+
+* weights + activations change distribution
+
+---
+
+## 🔹 Internal Covariate Shift
+
+---
+
+### Definition:
+
+* Distribution of inputs to each layer:
+
+  * changes during training
+
+---
+
+### Problem:
+
+* Makes training:
+
+  * unstable
+  * slow
+
+---
+
+## 🔹 Real-world Analogy
+
+* Train on:
+
+  * bright images
+
+* Test on:
+
+  * dark images
+
+👉 Performance drops
+
+---
+
+### Same idea happens:
+
+* internally between layers
+
+---
+
+## 🔹 Solution: Batch Normalization (VERY IMPORTANT)
+
+---
+
+## 🔹 Where Applied
+
+* Before activation function
+
+---
+
+## 🔹 Works On
+
+* Mini-batch of data
+
+---
+
+## 🔹 Batch Normalization Steps
+
+---
+
+### Step 1: Compute Mean
+
+[
+\mu_B^k = \frac{1}{m} \sum_{i=1}^{m} x_{ik}
+]
+
+---
+
+### Step 2: Compute Variance
+
+[
+\sigma_B^k = \frac{1}{m} \sum_{i=1}^{m} (x_{ik} - \mu_B^k)^2
+]
+
+---
+
+### Step 3: Normalize
+
+[
+\hat{x}*{ik} =
+\frac{x*{ik} - \mu_B^k}{\sigma_B^k}
+]
+
+---
+
+### Result:
+
+* Mean = 0
+* Variance = 1
+
+---
+
+## 🔹 Important Assumption
+
+* Features treated as:
+
+  * independent (uncorrelated)
+
+---
+
+## 🔹 Learnable Parameters (VERY IMPORTANT)
+
+After normalization:
+
+[
+y_{ik} = \gamma_k \hat{x}_{ik} + \beta_k
+]
+
+---
+
+### Where:
+
+* ( \gamma_k ) → scaling
+* ( \beta_k ) → shifting
+
+---
+
+## 🔹 Why Needed?
+
+* Normalization may:
+
+  * distort useful data
+
+---
+
+### Solution:
+
+* Let network:
+
+  * adjust scaling and shifting
+
+---
+
+## 🔹 Important Insight
+
+* If normalization is good:
+
+  * ( \gamma = 1, \beta = 0 )
+
+---
+
+* If original data better:
+
+  * network learns to revert
+
+---
+
+## 🔹 Effect of Batch Norm
+
+* Stabilizes training
+* Speeds up convergence
+* Reduces internal covariate shift
+
+---
+
+## 🔹 Additional Parameters
+
+* Adds:
+
+  * 2 parameters per feature
+
+---
+
+## 🔹 Backpropagation
+
+* Batch norm has:
+
+  * its own gradient rules
+
+* (not covered in detail)
+
+---
+
+## 🔹 Summary of Batch Norm
+
+* Normalize inputs per batch
+* Maintain stability
+* Allow flexibility via:
+
+  * γ and β
+
+---
+
+## 🔹 Preprocessing Types Covered
+
+* Input normalization
+* Batch normalization
+
+---
+
+## 🔹 Key Takeaways
+
+* Preprocessing:
+
+  * prevents instability
+* Internal covariate shift:
+
+  * slows learning
+* Batch norm:
+
+  * fixes this issue
+* γ, β:
+
+  * restore flexibility
+
+---
+
+## 🔥 Core Understanding
+
+* Normalize → stabilize
+* Batch norm → control layer inputs
+* γ, β → let network adapt
+
+---
+
+# 🧾 Week 3 – Video 6 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Dropout Clarification (Important Fix)
+
+* Earlier:
+
+  * probability ( P ) was mentioned
+
+---
+
+### Two interpretations:
+
+#### Case 1: ( P ) = probability of **keeping neuron**
+
+* Then:
+
+  * activation is multiplied by ( P )
+
+---
+
+#### Case 2: ( P ) = probability of **dropping neuron**
+
+* Then:
+
+  * scaling factor = ( 1 - P )
+
+---
+
+### Key Idea:
+
+* Must be consistent:
+
+  * definition of ( P )
+  * scaling during testing
+
+---
+
+## 🔹 Weight Initialization (Core Idea)
+
+* Goal:
+
+  * proper starting values for weights
+
+---
+
+## 🔹 Why Initialization Matters
+
+* If weights:
+
+  * too large → values explode
+  * too small → values vanish
+
+---
+
+## 🔹 Problem Across Layers
+
+* Variance propagation:
+
+[
+A = \sum W_i X_i
+]
+
+---
+
+### Variance:
+
+[
+\text{Var}(A) = n \cdot \text{Var}(W) \cdot \text{Var}(X)
+]
+
+---
+
+## 🔹 Deep Network Effect
+
+* At layer ( k ):
+
+[
+\text{Var}(A_k) = n^k (\text{Var}(W))^k \text{Var}(X)
+]
+
+---
+
+### Problem:
+
+* If:
+
+  * ( n \cdot \text{Var}(W) > 1 ) → explosion
+* If:
+
+  * ( n \cdot \text{Var}(W) < 1 ) → vanishing
+
+---
+
+## 🔹 Desired Condition
+
+[
+n \cdot \text{Var}(W) = 1
+]
+
+---
+
+### So:
+
+[
+\text{Var}(W) = \frac{1}{n}
+]
+
+---
+
+## 🔹 Weight Distribution
+
+* Assume:
+
+  * uniform distribution
+
+[
+W \sim U(-a, a)
+]
+
+---
+
+### Variance of uniform:
+
+[
+\text{Var}(W) = \frac{a^2}{3}
+]
+
+---
+
+## 🔹 Solve for ( a )
+
+[
+\frac{a^2}{3} = \frac{1}{n}
+]
+
+[
+a = \sqrt{\frac{3}{n}}
+]
+
+---
+
+## 🔹 Xavier Initialization (VERY IMPORTANT)
+
+---
+
+### Final Formula:
+
+[
+W \sim U\left(-\sqrt{\frac{6}{\text{fan-in} + \text{fan-out}}},
+\sqrt{\frac{6}{\text{fan-in} + \text{fan-out}}}\right)
+]
+
+---
+
+## 🔹 Definitions
+
+* fan-in:
+
+  * number of inputs to neuron
+
+* fan-out:
+
+  * number of outputs
+
+---
+
+## 🔹 Key Idea
+
+* Balance variance:
+
+  * forward pass
+  * backward pass
+
+---
+
+## 🔹 Why Include fan-out?
+
+* To maintain:
+
+  * stability across layers
+
+---
+
+## 🔹 Important Rule
+
+❌ Do NOT initialize:
+
+* all weights = 0
+* all weights = same constant
+
+---
+
+### Why?
+
+* All neurons:
+
+  * behave identically
+* No learning diversity
+
+---
+
+## 🔹 Effect of Bad Initialization
+
+* No symmetry breaking
+* Network fails to learn
+
+---
+
+## 🔹 Improved Initialization (He Initialization)
+
+* Proposed later
+
+---
+
+### Formula:
+
+[
+W \sim U\left(-\frac{4}{\sqrt{\text{fan-in} + \text{fan-out}}},
+\frac{4}{\sqrt{\text{fan-in} + \text{fan-out}}}\right)
+]
+
+---
+
+### Used for:
+
+* ReLU networks
+
+---
+
+## 🔹 Key Insight
+
+* Initialization:
+
+  * controls signal flow
+* Prevents:
+
+  * vanishing gradients
+  * exploding gradients
+
+---
+
+## 🔹 Summary of Initialization
+
+* Small random values
+* Maintain variance stability
+* Avoid symmetry
+
+---
+
+## 🔹 Final Takeaways
+
+* Dropout:
+
+  * probability interpretation matters
+* Initialization:
+
+  * crucial for training
+* Xavier:
+
+  * standard method
+* He:
+
+  * better for ReLU
+
+---
+
+## 🔥 Core Understanding
+
+* Bad init → network fails
+* Good init → stable learning
+* Goal → keep variance consistent
+
+---
+
+
+# 🧾 Week 3 – Video 7 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Introduction to CNN (Convolutional Neural Networks)
+
+* CNN = neural network specialized for:
+
+  * images
+  * spatial data
+
+---
+
+## 🔹 Difference from MLP
+
+* MLP:
+
+  * fully connected
+  * every neuron sees entire input
+
+* CNN:
+
+  * uses **convolution operation**
+  * neurons see only **local regions**
+
+---
+
+## 🔹 Applications of CNN
+
+* Face detection & recognition
+* Object classification
+* Object localization
+* Image segmentation
+* Image denoising
+* Image deblurring
+* Image captioning (image → text) 
+
+---
+
+## 🔹 Key Idea Behind CNN
+
+* Replace:
+
+  * fully connected layers
+
+* With:
+
+  * **convolution operation**
+
+---
+
+## 🔹 What is Convolution?
+
+---
+
+### 1D Convolution (Recap)
+
+[
+y[n] = \sum x[m] \cdot h[n - m]
+]
+
+---
+
+### Process:
+
+* Flip filter
+* Shift
+* Multiply
+* Sum
+
+---
+
+## 🔹 Important Property
+
+* Works for:
+
+  * Linear Time-Invariant (LTI) systems
+
+---
+
+## 🔹 Structure of Convolution
+
+* Produces:
+
+  * structured matrix (Toeplitz / circulant)
+
+---
+
+### Key Insight:
+
+* Convolution introduces:
+
+  * structure
+  * efficiency
+
+---
+
+## 🔹 2D Convolution (For Images)
+
+* Input:
+
+  * image (2D grid)
+
+* Filter (kernel):
+
+  * small matrix (e.g., 3×3, 5×5)
+
+---
+
+## 🔹 Steps in 2D Convolution
+
+1. Flip filter (horizontal + vertical)
+2. Place on image
+3. Multiply element-wise
+4. Sum values
+5. Move filter
+
+---
+
+## 🔹 Output
+
+* New feature map (output image)
+
+---
+
+## 🔹 Why Use Convolution?
+
+* Extract features like:
+
+  * edges
+  * textures
+  * patterns
+
+---
+
+## 🔹 Examples of Filters
+
+### Edge Detection:
+
+* gradient filters
+
+---
+
+### Blurring:
+
+* averaging filter
+
+[
+\frac{1}{9}
+\begin{bmatrix}
+1 & 1 & 1 \
+1 & 1 & 1 \
+1 & 1 & 1
+\end{bmatrix}
+]
+
+---
+
+### Gaussian Blur:
+
+* weighted smoothing
+
+---
+
+## 🔹 Handcrafted vs Learned Filters
+
+* Traditional:
+
+  * manually designed filters
+
+* CNN:
+
+  * learns filters automatically
+
+---
+
+## 🔹 Key CNN Properties (VERY IMPORTANT)
+
+---
+
+## 🔸 1. Locality
+
+* Each neuron:
+
+  * sees only small region (e.g., 3×3)
+
+---
+
+### Why?
+
+* Images:
+
+  * local pixels highly correlated
+
+---
+
+### Benefit:
+
+* fewer parameters
+* better feature extraction
+
+---
+
+## 🔸 2. Weight Sharing
+
+* Same filter applied:
+
+  * across entire image
+
+---
+
+### Meaning:
+
+* same weights reused
+
+---
+
+### Benefit:
+
+* drastically reduces parameters
+* detects same feature everywhere
+
+---
+
+## 🔹 Receptive Field
+
+---
+
+### Definition:
+
+* Region of input image a neuron can “see”
+
+---
+
+## 🔹 Important Insight
+
+* First layer:
+
+  * sees small region (e.g., 3×3)
+
+---
+
+* Deeper layers:
+
+  * see larger region
+
+---
+
+### Example:
+
+* 1st layer:
+
+  * 3×3
+
+* 2nd layer:
+
+  * effectively 5×5
+
+---
+
+### Reason:
+
+* stacking layers expands view
+
+---
+
+## 🔹 Key Understanding
+
+* CNN:
+
+  * local processing
+* Deep CNN:
+
+  * global understanding
+
+---
+
+## 🔹 Why CNN Works Better Than MLP
+
+* Preserves:
+
+  * spatial structure
+
+* Uses:
+
+  * fewer parameters
+
+* Learns:
+
+  * hierarchical features
+
+---
+
+## 🔹 Comparison Summary
+
+| Feature          | MLP     | CNN       |
+| ---------------- | ------- | --------- |
+| Connectivity     | Full    | Local     |
+| Parameters       | Huge    | Reduced   |
+| Structure        | Ignored | Preserved |
+| Feature Learning | Weak    | Strong    |
+
+---
+
+## 🔹 Important Insight
+
+* CNN does NOT look at full image at once
+* Builds understanding:
+
+  * layer by layer
+
+---
+
+## 🔹 Core Takeaways
+
+* Convolution:
+
+  * extracts features
+* Locality:
+
+  * captures local patterns
+* Weight sharing:
+
+  * reduces parameters
+* Receptive field:
+
+  * grows with depth
+
+---
+
+## 🔥 Core Understanding
+
+* MLP = global view
+* CNN = local → global learning
+* Filters = feature detectors
+* Deep layers = high-level understanding
+
+---
+
+# 🧾 Week 3 – Video 8 (Point-wise Detailed Notes)
+
+---
+
+## 🔹 Typical CNN Architecture
+
+* Structure:
+
+```
+Input → Convolution → Subsampling → Convolution → Subsampling → Fully Connected → Output
+```
+
+---
+
+## 🔹 Input
+
+* Image (2D or 3D if RGB)
+* Example:
+
+  * grayscale → 1 channel
+  * RGB → 3 channels
+
+---
+
+## 🔹 Convolution Layer
+
+* Apply filter (e.g., 5×5)
+* Produces:
+
+  * feature maps
+
+---
+
+### Output:
+
+* Each filter → one feature map
+
+---
+
+## 🔹 Feature Maps (Channels)
+
+* Each output = **channel / feature map**
+
+---
+
+### Meaning:
+
+* One filter extracts:
+
+  * one type of feature
+
+---
+
+### Example:
+
+* Filter 1 → horizontal edges
+* Filter 2 → vertical edges
+* Filter 3 → diagonal edges
+
+---
+
+## 🔹 Important Concept
+
+* Number of filters = number of feature maps
+
+---
+
+### Example:
+
+* 8 filters → 8 feature maps
+
+---
+
+## 🔹 Why Multiple Feature Maps?
+
+* Capture different features
+* Network learns:
+
+  * multiple representations
+
+---
+
+## 🔹 Feature Hierarchy
+
+* Early layers:
+
+  * edges, gradients
+
+* Middle layers:
+
+  * shapes
+
+* Deep layers:
+
+  * objects
+
+---
+
+## 🔹 Channels as Feature Extractors
+
+* Each channel:
+
+  * focuses on specific pattern
+
+---
+
+## 🔹 Next Layer Input
+
+* Input is NOT original image
+* Input = previous feature maps
+
+---
+
+## 🔹 Multi-Channel Convolution (VERY IMPORTANT)
+
+---
+
+### Input:
+
+* multiple feature maps (e.g., 8 channels)
+
+---
+
+### Filter:
+
+* must cover ALL channels
+
+---
+
+## 🔹 Box Filter Concept
+
+* Filter becomes 3D:
+
+[
+\text{height} \times \text{width} \times \text{channels}
+]
+
+---
+
+### Example:
+
+* 3×3 filter
+* 8 input channels
+
+👉 Filter = 3×3×8
+
+---
+
+## 🔹 Output Generation
+
+* Multiply across:
+
+  * all channels
+* Sum results
+
+---
+
+### Result:
+
+* ONE value
+
+---
+
+## 🔹 To get multiple outputs
+
+* Use multiple filters
+
+---
+
+### Example:
+
+* Want 24 feature maps
+
+👉 Use 24 filters
+
+---
+
+## 🔹 Total Parameters
+
+For one filter:
+[
+3 × 3 × 8 = 72
+]
+
+For 24 filters:
+[
+72 × 24
+]
+
+---
+
+### Plus bias:
+
+[
+
+* 24
+  ]
+
+---
+
+## 🔹 Important Insight
+
+* Each filter:
+
+  * spans full depth
+* But moves only:
+
+  * spatially (2D)
+
+---
+
+## 🔹 Why Not Move in Depth?
+
+* If moved in depth:
+
+  * output becomes 3D
+
+* Instead:
+
+  * depth is collapsed
+  * output is 2D
+
+---
+
+## 🔹 Key Understanding
+
+* Convolution:
+
+  * operates in 2D
+* Depth handled via:
+
+  * summation
+
+---
+
+## 🔹 Flattening (VERY IMPORTANT)
+
+---
+
+### Purpose:
+
+* convert 2D feature maps → 1D vector
+
+---
+
+### Process:
+
+* unwrap all values into vector
+
+---
+
+### Example:
+
+* multiple channels → flattened
+
+---
+
+## 🔹 Why Flatten?
+
+* Fully connected layers:
+
+  * require 1D input
+
+---
+
+## 🔹 Fully Connected Layers in CNN
+
+* After flattening:
+
+  * behaves like MLP
+
+---
+
+### Purpose:
+
+* final classification
+
+---
+
+## 🔹 Output Layer
+
+* Example:
+
+  * digit recognition (0–9)
+
+---
+
+### Output:
+
+* 10-dimensional vector
+
+---
+
+### Representation:
+
+* one-hot encoding
+
+---
+
+## 🔹 Loss Function
+
+* Cross entropy
+* Softmax at output
+
+---
+
+## 🔹 Parameter Behavior
+
+---
+
+### Convolution layers:
+
+* few parameters
+* efficient
+
+---
+
+### Fully connected layers:
+
+* large parameters
+* expensive
+
+---
+
+## 🔹 Key Trade-off
+
+* CNN:
+
+  * efficient feature extraction
+
+* FC layers:
+
+  * decision making
+
+---
+
+## 🔹 Hyperparameters
+
+* number of filters
+* filter size
+* number of layers
+* number of FC layers
+
+---
+
+## 🔹 Important Insight
+
+* CNN does:
+
+  * feature extraction
+
+* FC does:
+
+  * classification
+
+---
+
+## 🔹 Final Takeaways
+
+* Feature maps:
+
+  * represent learned features
+* Filters:
+
+  * learn patterns
+* Multi-channel:
+
+  * captures complex features
+* Flattening:
+
+  * connects CNN → MLP
+* FC layers:
+
+  * final prediction
+
+---
+
+## 🔥 Core Understanding
+
+* CNN = feature extractor
+* Filters = pattern detectors
+* Channels = different features
+* FC = decision maker
+
+---
+
+🔥 This completes the **core CNN architecture understanding**
+
+
